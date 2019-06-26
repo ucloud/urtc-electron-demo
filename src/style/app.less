@@ -1,0 +1,137 @@
+ul{
+  list-style: none;
+}
+p{
+  margin: 0;
+}
+/**
+设置滚动条的样式
+ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 6px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #1a9ffa;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+#app{
+  height: 100%;
+  overflow-y: scroll;
+
+  &>.ant-layout{
+    height: 100%;
+    .ant-layout-content{
+      padding-top: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .page-header{
+    padding: 0 30px;
+    background: #e4f3ff;
+    line-height: 40px;
+    .ant-input,.ant-btn,.ant-switch{
+      margin-right: 20px;
+    }
+  }
+  .header-item{
+    display: inline-block;
+  }
+
+  .page-content-warpper{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .video-item{
+    float: left;
+    margin: 5px;
+    border: 1px solid #54adff;
+    width: 238px;
+    height:170px;
+  }
+  .video-title{
+    font-size: 14px;
+    padding: 5px 0;
+    background-color: #94d7ff;
+    display: flex;
+    flex-direction: row;
+
+    .title-text{
+      width: 214px;
+      display: inline-block;
+      text-align: center;
+      overflow: hidden;
+      margin: 0 5px;
+    }
+
+    .v-icon{
+      text-align: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 14px;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .empty-data-warpper{
+    font-size: 22px;
+    font-weight: 700;
+    color: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+
+  .video-bg{
+    height: 137px;
+    text-align: center;
+    line-height: 137px;
+  }
+  .video-bg i{
+    font-size: 50px;
+  }
+
+  .ant-layout-sider{
+    padding-top: 43px;
+    margin:0 2px;
+  }
+
+  .detail-msg-item{
+    float: left;
+    padding-right: 20px;
+  }
+}
+
+
+.video-window-warper{
+  width: 100%;
+  padding-left: 2px;
+
+  .ant-card-head-title{
+    padding: 5px 0;
+  }
+  .ant-card-head{
+    min-height: 30px;
+    text-align: center;
+  }
+  .video-window-img{
+    width: 960px;
+    height: 542px;
+    padding: 80px;
+  }
+  .ant-card-body{
+    padding: 0;
+  }
+}

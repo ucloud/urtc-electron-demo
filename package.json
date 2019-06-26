@@ -1,0 +1,76 @@
+{
+  "name": "rtcdemo",
+  "version": "0.1.2",
+  "description": "RTCDemo",
+  "main": "index.js",
+  "scripts": {
+    "react-start": "webpack-dev-server --mode development --config webpack.config.dev.js",
+    "react-build": "webpack --mode production",
+    "start": "electron .",
+    "build-node-win": "node-gyp rebuild --target=2.0.8 --arch=ia32 --dist-url=https://atom.io/download/electron",
+    "build-win": "electron-builder --win --ia32"
+  },
+  "build": {
+    "appId": "com.ucloud.urtc",
+    "copyright": "urtc",
+    "productName": "urtcDemo",
+    "asar": false,
+    "files": [
+      "index.html",
+      "index.js",
+      "dist/",
+      "logs/",
+      "plugin/lib/release/"
+    ],
+    "directories": {
+      "output": "install"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Setup-${productName}-${version}-${arch}.${ext}"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.ucloudadmin.com:urtc/URTCElectronDemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "antd": "^3.11.6",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-import": "^1.11.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "bindings": "^1.3.1",
+    "css-loader": "^1.0.1",
+    "electron": "^2.0.8",
+    "electron-builder": "^20.38.4",
+    "ffi": "^2.3.0",
+    "file-loader": "^2.0.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "log4js": "^4.0.2",
+    "native-ext-loader": "^2.3.0",
+    "node-loader": "^0.6.0",
+    "postcss-loader": "^3.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "whatwg-fetch": "^3.0.0"
+  }
+}

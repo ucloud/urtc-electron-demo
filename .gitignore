@@ -1,0 +1,9 @@
+/node_modules
+/.idea
+/build
+/install
+package-lock.json
+.project
+
+electronmedia.log
+/dist/urtcelectron.node

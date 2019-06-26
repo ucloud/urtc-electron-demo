@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+    <meta http-equiv="Cache-Control" content="max-age=300"/>
+    <title>视频通话</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        a{
+            text-decoration: none;
+        }
+        body{
+            font-family: PingFangSC, 'helvetica neue', 'hiragino sans gb', arial, 'microsoft yahei ui', 'microsoft yahei', simsun, sans-serif !important;
+        }
+        .window-header{
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            color: #fff;
+            height: 40px;
+            line-height: 40px;
+            background-color: #54adff;
+            z-index: 100;
+            -webkit-app-region: drag;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .window-header-btn-warpper{
+            float: right;
+            padding:0 15px;
+            line-height: 36px;
+        }
+        .win-header-btn{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-left: 10px;
+            vertical-align: middle;
+            -webkit-app-region: no-drag;
+        }
+
+        .window-header .rtc-iconfont{
+            color: #666;
+            font-size: 26px;
+            vertical-align: initial;
+            font-weight: normal;
+        }
+        .window-header .rtc-minimize:hover{
+            color: #fff;
+        }
+        .window-header .rtc-close:hover{
+            color: red;
+        }
+        .window-header .logo{
+            margin-left: 10px;
+            float: left;
+            width: 36px;
+            height: 36px;
+            padding-top: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="fonts/iconfont.css">
+</head>
+<body>
+<div class="window-header">
+    视频通话
+    <div id="window-header-btn-warpper" class="window-header-btn-warpper">
+        <a href="javascript:;" class="win-min" title="最小化">
+            <i class="rtc-iconfont rtc-minimize win-header-btn" data-action="minimize"></i>
+        </a>
+        <a href="javascript:;" class="win-close" title="关闭">
+            <i class="rtc-iconfont rtc-close win-header-btn" data-action="close"></i>
+        </a>
+    </div>
+</div>
+<script>
+    var electron = require('electron')
+    var ipcRenderer = electron.ipcRenderer;
+    document.getElementById('window-header-btn-warpper').addEventListener('click',function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var target = e.target;
+        if(target.classList.contains('win-header-btn')){
+            ipcRenderer.send('window-message',target.getAttribute('data-action'));
+        }
+    })
+</script>
+<div id="app"></div>
+<script src="app.js"></script>
+</body>
+</html>
