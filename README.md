@@ -1,5 +1,5 @@
 # 1 描述
-URTCWin 是UCloud推出的一款适用于 Windows 平台的实时音视频 SDK，支持windows7 及以上系统，提供了音视频通话基础功能，提供灵活的接口，支持高度定制以及二次开发，如果使用electron addon 请参考[urtc-electron-demo](https://github.com/ucloud/urtc-electron-demo.git)。
+URTCelectron 是UCloud推出的一款适用于 Windows 平台的实时音视频 SDK，支持windows7 及以上系统，提供了音视频通话基础功能，提供灵活的接口，支持高度定制以及二次开发，支持electron2.0.7及以上版本，如果使用c++ 请参考[urtc-win-demo](https://github.com/ucloud/urtc-win-demo.git)。
 # 2 功能列表
 ## 2.1 基本功能
 * 基本的音视频通话功能	
@@ -26,7 +26,10 @@ URTCWin 是UCloud推出的一款适用于 Windows 平台的实时音视频 SDK�
 * 手势
 * 虚拟形象
 * 变声
-# 3 方案优势
+# 3 方案介绍
+## 3.1 方案架构
+![](http://urtcwater.cn-bj.ufileos.com/%E5%9B%BE%E7%89%871.png)
+## 3.2 方案优势
 * 利用边缘节点就近接入
 * 可用性99.99%
 * 智能链路调度
