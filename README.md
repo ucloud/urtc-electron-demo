@@ -56,3 +56,36 @@ URTCelectron 是UCloud推出的一款适用于 Windows 平台的实时音视频 
 ## 4.5 在线客服
 线上开展音视频对话，对客户的资信情况进行审核，方便金融科技企业实现用户在线签约、视频开户验证以及呼叫中心等功能
 提供云端存储空间及海量数据的处理能力，提供高可用的技术和高稳定的平台
+# 5 如何使用
+## 5.1 环境准备
+1 安装nodejs 安装8.x 版本， 10版本会有问题  本demo 安装 8.9.4
+2 安装node-gyp 安装node-gyp@3.5.0 之后的版本可能不支持vs2015 ，只能支持vs2017编译，demo采用node-gyp@3.5.0
+npm install -g node-gyp@3.5.0
+3 安装python 2.x 版本，不支持3.x 版本，并设置到环境变量中去
+4 git clone 
+5 进入工程根目录  
+npm i electron --arch=ia32 --save-dev   安装electron 版本
+6 npm install 安装js 依赖
+7 node-gyp rebuild --target=2.0.8 --arch=ia32 --dist-url=https://atom.io/download/electron 编译插件
+编译好的库位于 更目录 build/release 目录下
+8 将库拷贝到 pulgin/lib/release 目录下
+9 调试打包
+## 5.2 调试
+打开根目录 index.js 文件
+注释掉 mainWindow.loadFile('dist/index.html')  
+取消 mainWindow.loadURL('http://localhost:3000/index.html') 的注释
+然后在根目录运行 npm run react-start  (运行该命令的窗口不要关闭)
+然后在根目录运行 npm start 
+## 5.3 打包
+打开根目录 index.js 文件
+取消 mainWindow.loadFile('dist/index.html') 的注释
+注释掉 mainWindow.loadURL('http://localhost:3000/index.html')
+然后在根目录运行 npm run react-build    
+然后在根目录运行 npm run build-win
+## 5.4 常见问题
+### node-gyp.js 找不到 解决方案
+set npm_config_node_gyp=C:\Users\usser\AppData\Roaming\npm\node_modules\node-gyp\bin\node-gyp.js
+### 找不到python
+npm config set python python
+### 找不到编译工具
+npm config set msvs_version 2015
