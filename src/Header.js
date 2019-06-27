@@ -42,6 +42,7 @@ export default class PageHeader extends React.Component{
         getSdk(true).then(resp=>{
             const urtcSdk = resp.urtcSdk;
             urtcSdk.initdevengine(function (objectStr) {
+                //console.log(" mic level "+ objectStr);
                 _this.setState({percent:objectStr*100/255})
             });
 

@@ -44,7 +44,7 @@
 	  'link_settings': {
 		'libraries': [
 			'-ljsoncpp.lib',
-			'-lsdkengine.lib'
+			'-lURTCWinMediaEngine.lib'
 		]
       },
     }
