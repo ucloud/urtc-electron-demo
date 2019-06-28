@@ -34,8 +34,8 @@ function createWindow() {
     //隐藏菜单
     mainWindow.setMenu(null);
     // and load the index.html of the app.
-    mainWindow.loadFile('dist/index.html');
-    //mainWindow.loadURL('http://localhost:3000/index.html')
+    //mainWindow.loadFile('dist/index.html');
+    mainWindow.loadURL('http://localhost:3000/index.html')
 
     // 窗口关闭后删除相应的元素。
     mainWindow.on('closed', function () {
