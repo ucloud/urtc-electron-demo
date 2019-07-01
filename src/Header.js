@@ -41,7 +41,7 @@ export default class PageHeader extends React.Component{
         //更新麦克风的音量
         getSdk(true).then(resp=>{
             const urtcSdk = resp.urtcSdk;
-            urtcSdk.initdevengine(function (objectStr) {
+            urtcSdk.InitDevEngine(function (objectStr) {
                 //console.log(" mic level "+ objectStr);
                 _this.setState({percent:objectStr*100/255})
             });
@@ -49,27 +49,27 @@ export default class PageHeader extends React.Component{
             //麦克风列表
             let micList = [];
             //获取麦克风的数量
-            const micCount = urtcSdk.getmicnums();
+            const micCount = urtcSdk.GetMicphoneNums();
             //循环获取所有麦克风的信息
             for(let i=0;i<micCount;i++){
                 var obj = {
                     deviceid:'',
                     devicename:''
                 };
-                urtcSdk.getmicdevinfo(i,obj);
+                urtcSdk.GetMicphoneInfo(i,obj);
                 micList.push(obj);
             }
 
             //摄像头列表
             let camList = [];
             //获取摄像头的数量
-            const camCount = urtcSdk.getcamnums();
+            const camCount = urtcSdk.GetCameraNums();
             for(let i=0;i<camCount;i++){
                 let obj = {
                     deviceid:'',
                     devicename:''
                 };
-                urtcSdk.getcamdevinfo(i,obj);
+                urtcSdk.GetCameraInfo(i,obj);
                 camList.push(obj);
             }
             this.setState({microphones:micList,cameras:camList});
@@ -94,8 +94,8 @@ export default class PageHeader extends React.Component{
         this.previewWidow && this.previewWidow.close();
         getSdk(true).then(resp=>{
             const urtcSdk = resp.urtcSdk;
-            urtcSdk.stopcamtest();
-            urtcSdk.stopmictest();
+            urtcSdk.StopCameraTest();
+            urtcSdk.StopMicphoneTest();
         })
     }
 
@@ -119,21 +119,21 @@ export default class PageHeader extends React.Component{
         sessionStorage.setItem('room_id',roomid);
         getSdk().then(resp => {
             const urtcSdk = resp.urtcSdk;
-            urtcSdk.initrtcengine(this.props.initEngine);
-            urtcSdk.setsdkmode(1) ; // 0 normal 1 test , normal mode appid and token will be added by developer , test sdk generate
-            urtcSdk.setstreamrole(2) ;
-            urtcSdk.setaudioonlymode(false) ;
-            urtcSdk.setaudopubsub(false, false) ;
-            urtcSdk.setvideoprofile(1) ;
-            urtcSdk.setscreenprofile(2) ;
-            urtcSdk.settokenseckey("9129304dbf8c5c4bf68d70824462409f") ;
+            urtcSdk.InitRtcEngine(this.props.initEngine);
+            urtcSdk.SetSdkMode(1) ; 
+            urtcSdk.SetStreamRole(2) ;
+            urtcSdk.SetAudioOnlyMode(false) ;
+            urtcSdk.SetAutoPubSub(false, false) ;
+            urtcSdk.SetVideoProfile(1) ;
+            urtcSdk.SetScreenOutProfile(2) ;
+            urtcSdk.SetTokenSeckey("9129304dbf8c5c4bf68d70824462409f") ;
             const jsonarg = {} ;
             jsonarg.uid = userid ;
             jsonarg.rid = roomid ;
             jsonarg.appid = "URtc-h4r1txxy" ;// test mode this  define in sdk 
             const jsonStr = JSON.stringify(jsonarg) ;
             console.log("joinroom : "+ jsonStr) ;
-            urtcSdk.joinroom(jsonStr);
+            urtcSdk.JoinRoom(jsonStr);
         }).catch(ex => {
             this.setState({joinLoadding:false});
             message.error(`出现错误：${ex.err || ex.code} --> ${ex.msg || ex.message}`);
@@ -170,8 +170,9 @@ export default class PageHeader extends React.Component{
             this.previewWidow.close();
         }
         getSdk(true).then(resp=>{
-            resp.urtcSdk.stopcamtest();
-            resp.urtcSdk.stopmictest();
+            const urtcSdk = resp.urtcSdk;
+            urtcSdk.StopCameraTest();
+            urtcSdk.StopMicphoneTest();
             this.setState({percent:0});
         }).catch(ex=>{
             this.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
@@ -195,8 +196,9 @@ export default class PageHeader extends React.Component{
         this.addLog('info','您点击了测试摄像头按钮！');
         getSdk(true).then(resp=>{
             //先停止上一个摄像头的测试
-            resp.urtcSdk.stopcamtest();
-            resp.urtcSdk.startcamtest(this.testCameraId,this.previewWidow.getNativeWindowHandle().readInt32LE());
+            const urtcSdk = resp.urtcSdk;
+            urtcSdk.StopCameraTest();
+            urtcSdk.StartCameraTest(this.testCameraId,this.previewWidow.getNativeWindowHandle().readInt32LE());
         }).catch(ex=>{
             this.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
         });
@@ -210,9 +212,9 @@ export default class PageHeader extends React.Component{
         this.addLog('info','您点击了测试麦克风按钮！');
         getSdk(true).then(resp=>{
             //先停止上一个麦克风的测试
-            resp.urtcSdk.stopmictest();
+            resp.urtcSdk.StopMicphoneTest();
             //测试当前麦克风
-            resp.urtcSdk.startmictest(this.testmicrophoneId);
+            resp.urtcSdk.StartMicphoneTest(this.testmicrophoneId);
         }).catch(ex=>{
             this.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
         });

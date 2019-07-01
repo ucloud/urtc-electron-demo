@@ -1,7 +1,8 @@
 import 'whatwg-fetch';
 const electron = require('electron');
 const {BrowserWindow} = electron.remote;
-import urtcSdk from '../plugin/lib/release/urtcelectron.node';
+import {urtcSdk} from '../URTCSdkEngine';
+//import urtcSdk from '../plugin/lib/release/urtcelectron.node';
 import EventEmitter from "./EventEmitter";
 
 let localUserInfo = {};
@@ -125,8 +126,6 @@ export const getSdk = ()=>{
         resolve({urtcSdk});
     });
 }
-
-
 
 //消息订阅器
 export const messageHanddle = new EventEmitter();

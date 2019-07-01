@@ -38,7 +38,7 @@ export default class PageBottom extends Component{
         addLog('info','您点击了发布媒体按钮！');
         if(roomId){
             getSdk().then(resp=>{
-                resp.urtcSdk.publishstream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
+                resp.urtcSdk.PublishStream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
             }).catch(ex=>{
                 this.setState({pCameraLoadding:false});
                 addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
@@ -56,7 +56,7 @@ export default class PageBottom extends Component{
         const { roomId, addLog } = this.props;
         addLog('info','您点击了取消媒体发布按钮！');
         getSdk().then(resp=>{
-            resp.urtcSdk.unpublishstream(1);
+            resp.urtcSdk.UnPublishStream(1);
         }).catch(ex=>{
             addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
         });
@@ -78,8 +78,8 @@ export default class PageBottom extends Component{
                 jsonarg.height = 0 ;
                 const jsonStr = JSON.stringify(jsonarg) ;
                 console.log("publishstream : "+ jsonStr) ;
-                resp.urtcSdk.setscreencapturepragram(jsonStr) ;
-                resp.urtcSdk.publishstream(2,true, false);
+                resp.urtcSdk.SetScreenCaptureProgram(jsonStr) ;
+                resp.urtcSdk.PublishStream(2,true, false);
             }).catch(ex=>{
                 this.setState({pScreenLoadding:false});
                 addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
@@ -96,7 +96,7 @@ export default class PageBottom extends Component{
         const { roomId, addLog } = this.props;
         addLog('info','您点击了取消桌面发布按钮！');
         getSdk().then(resp=>{
-            resp.urtcSdk.unpublishstream(2);
+            resp.urtcSdk.UnPublishStream(2);
         }).catch(ex=>{
             addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
         });
@@ -114,12 +114,12 @@ export default class PageBottom extends Component{
                 const jsonarg = {} ;
                 jsonarg.mainuid = "" ;
                 jsonarg.profile = 1 ;
-                jsonarg.recordtype = 1 ;
-                jsonarg.waterpos = 1 ;
-                jsonarg.mainviewmtype = 1 ;
+                jsonarg.rtype = 1 ;
+                jsonarg.wpos = 1 ;
+                jsonarg.mvtype = 1 ;
                 const jsonStr = JSON.stringify(jsonarg) ;
                 console.log("startRecord : "+ jsonStr) ;
-                resp.urtcSdk.startrecord(jsonStr);
+                resp.urtcSdk.StartRoomRcord(jsonStr);
             }).catch(ex=>{
                 this.setState({startrecording:false});
                 addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
@@ -136,7 +136,7 @@ export default class PageBottom extends Component{
         const { roomId, addLog } = this.props;
         addLog('info','您点击了停止录制！');
         getSdk().then(resp=>{
-            resp.urtcSdk.stoprecord();
+            resp.urtcSdk.StopRoomRecord();
         }).catch(ex=>{
             addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
         });
@@ -149,7 +149,7 @@ export default class PageBottom extends Component{
         const { addLog, roomId } = this.props;
         addLog('info','您点击了离开房间按钮！');
         getSdk().then(resp=>{
-            resp.urtcSdk.leaveroom();
+            resp.urtcSdk.LeaveRoom();
         }).catch(ex=>{
             addLog('error',`出现错误：${ex.err || ex.code} --> ${ex.msg || ex.message}`);
         })

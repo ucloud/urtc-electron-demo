@@ -195,7 +195,7 @@ var enentMap={
                     const urtcSdk = resp.urtcSdk;
                     const jsonStr = JSON.stringify(jsonarg) ;
                     console.log("startlocalpreview camera : "+ jsonStr) ;
-                    urtcSdk.startpreview(jsonStr) ;
+                    urtcSdk.StartLocalRender(jsonStr) ;
                 })
                 com.setState({videos,camPushing:true},() => {
                     localView.show();
@@ -213,7 +213,7 @@ var enentMap={
                     const urtcSdk = resp.urtcSdk;
                     const jsonStr = JSON.stringify(jsonarg) ;
                     console.log("startlocalpreview screen : "+ jsonStr) ;
-                    urtcSdk.startpreview(jsonStr) ;
+                    urtcSdk.StartLocalRender(jsonStr) ;
                 })
                 com.setState({videos,screenPushing:true},() => {
                      localView.show();
@@ -325,7 +325,7 @@ var enentMap={
                 const jsonStr = JSON.stringify(jsonarg) ;
                 com.addLog('success','substream '+jsonStr);
                 console.log("substream "+ jsonStr) ;
-                resp.urtcSdk.subscribestream(jsonStr);
+                resp.urtcSdk.SubscribeStream(jsonStr);
             }).catch(ex=>{
                 com.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
             })
@@ -368,7 +368,7 @@ var enentMap={
                         const jsonStr = JSON.stringify(jsonarg) ;
                         com.addLog('success','startremoteview '+jsonStr);
                         console.log("startremoteview "+ jsonStr) ;
-                        resp.urtcSdk.startremoteview(jsonStr);
+                        resp.urtcSdk.StartRemoteRender(jsonStr);
                     }).catch(ex=>{
                         com.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
                     }) ;

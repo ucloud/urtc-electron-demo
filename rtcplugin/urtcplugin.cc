@@ -387,7 +387,7 @@ void NodeSetActivePlay(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetActivePlay Wrong number of arguments")));
 		return;
 	}
 	tUCloudRtcDeviceInfo tDevinfo;
@@ -427,7 +427,7 @@ void NodeSetRecordVol(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetRecordVol Wrong number of arguments")));
 		return;
 	}
 	int32_t volume = args[0]->Int32Value();
@@ -459,7 +459,7 @@ void NodeSetPlayVol(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetPlayVol Wrong number of arguments")));
 		return;
 	}
 	int32_t volume = args[0]->Int32Value();
@@ -491,7 +491,7 @@ void NodeSetSpeakerVol(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetSpeakerVol Wrong number of arguments")));
 		return;
 	}
 	int32_t volume = args[0]->Int32Value();
@@ -599,7 +599,7 @@ void NodeSetSdkMode(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetSdkMode Wrong number of arguments")));
 		return;
 	}
 	int32_t sdkmode = args[0]->Int32Value();
@@ -618,7 +618,7 @@ void NodeSetStreamRole(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetStreamRole Wrong number of arguments")));
 		return;
 	}
 	int32_t role = args[0]->Int32Value();
@@ -638,7 +638,7 @@ void NodeSetLogLevel(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetLogLevel Wrong number of arguments")));
 		return;
 	}
 	int32_t loglevel = args[0]->Int32Value();
@@ -656,7 +656,7 @@ void NodeSetAutoPubSub(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 2) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetAutoPubSub Wrong number of arguments")));
 		return;
 	}
 	bool autopub = args[0]->BooleanValue();
@@ -676,7 +676,7 @@ void NodeSetAudioOnlyMode(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetAudioOnlyMode Wrong number of arguments")));
 		return;
 	}
 	bool audioonly = args[0]->BooleanValue();
@@ -696,7 +696,7 @@ void NodeSetVideoProfile(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetVideoProfile Wrong number of arguments")));
 		return;
 	}
 	int32_t videofile = args[0]->Int32Value();
@@ -715,7 +715,7 @@ void NodeSetScreenProfile(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetScreenProfile Wrong number of arguments")));
 		return;
 	}
 	int32_t videofile = args[0]->Int32Value();
@@ -745,7 +745,7 @@ void NodeSetScreenPagram(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SetScreenPagram Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -790,7 +790,7 @@ void NodeJoinChannel(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "JoinChannel Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -813,7 +813,7 @@ void NodeJoinChannel(const FunctionCallbackInfo<Value>& args) {
 	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
 	if (rtcengine)
 	{
-		LOG_INFO("NodeJoinChannel = %s", jsonmsg) ;
+		//LOG_INFO("NodeJoinChannel = %s", jsonmsg) ;
 		tUCloudRtcAuth auth;
 		auth.mUserId = uid.data();
 		auth.mRoomId = roomid.data();
@@ -845,7 +845,7 @@ void NodeStartPreview(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "StartPreview Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -884,7 +884,7 @@ void NodeStopPreview(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "StopPreview Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -923,7 +923,7 @@ void NodePublishStream(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 3) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "PublishStream Wrong number of arguments")));
 		return;
 	}
 	int32_t mtype = args[0]->Int32Value();
@@ -945,7 +945,7 @@ void NodeUnPublishStream(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "UnPublishStream Wrong number of arguments")));
 		return;
 	}
 	int32_t mtype = args[0]->Int32Value();
@@ -965,7 +965,7 @@ void NodeMuteLocalMic(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "MuteLocalMic Wrong number of arguments")));
 		return;
 	}
 	bool mute = args[0]->BooleanValue();
@@ -985,7 +985,7 @@ void NodeMuteLocalVideo(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "MuteLocalVideo Wrong number of arguments")));
 		return;
 	}
 	bool mute = args[0]->BooleanValue();
@@ -1006,7 +1006,7 @@ void NodeStartRemoteRender(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "StartRemoteRender Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -1045,7 +1045,7 @@ void NodeStopRemoteView(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "StopRemoteView Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -1084,7 +1084,7 @@ void NodeSubStream(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "SubStream Wrong number of arguments")));
 		return;
 	}
 
@@ -1127,7 +1127,7 @@ void NodeUnSubStream(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "UnSubStream Wrong number of arguments")));
 		return;
 	}
 
@@ -1168,7 +1168,7 @@ void NodeMuteRemoteAudio(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "MuteRemoteAudio Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -1205,7 +1205,7 @@ void NodeMuteRemoteVideo(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "MuteRemoteVideo Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -1242,7 +1242,7 @@ void NodeStartRecord(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "StartRecord Wrong number of arguments")));
 		return;
 	}
 	Local<String> jsonbody = args[0]->ToString();
@@ -1263,6 +1263,9 @@ void NodeStartRecord(const FunctionCallbackInfo<Value>& args) {
 
 	int32_t nRetValue = -1;
 	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
+
+	LOG_INFO("start NodeStartRecord mainviewid = %s && profile=%d && rtype=%d && wpos=%d && mvtype=%d",
+							mainviewid.data(), profile, recordtype, waterpos, mainviewmtype);
 	if (rtcengine)
 	{
 		tUCloudRtcRecordConfig recordconfig;
@@ -1297,7 +1300,7 @@ void NodeConfigCameraPublish(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "ConfigCameraPublish Wrong number of arguments")));
 		return;
 	}
 	bool enable = args[0]->BooleanValue();
@@ -1328,7 +1331,7 @@ void NodeConfigScreenPublish(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "ConfigScreenPublish Wrong number of arguments")));
 		return;
 	}
 	bool enable = args[0]->BooleanValue();
@@ -1359,7 +1362,7 @@ void NodeConfigAudioPublish(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 	if (args.Length() < 1) {
 		isolate->ThrowException(Exception::TypeError(
-			String::NewFromUtf8(isolate, "SetActiveMic Wrong number of arguments")));
+			String::NewFromUtf8(isolate, "ConfigAudioPublish Wrong number of arguments")));
 		return;
 	}
 	bool enable = args[0]->BooleanValue();
@@ -1468,7 +1471,6 @@ void Init(Local<Object> exports, Local<Object> module) {
 
 	NODE_SET_METHOD(exports, "startpreview", NodeStartPreview); // testdone
 	NODE_SET_METHOD(exports, "stoppreview", NodeStopPreview); //todo - done testdone
-	NODE_SET_METHOD(exports, "setvideoprofile", NodeSetVideoProfile); //testdone
     NODE_SET_METHOD(exports, "publishstream", NodePublishStream); //todo - done testdone
     NODE_SET_METHOD(exports, "unpublishstream", NodeUnPublishStream); //todo - done testdone
     NODE_SET_METHOD(exports, "mutelocalaudio", NodeMuteLocalMic); //todo - done testdone
@@ -1481,6 +1483,7 @@ void Init(Local<Object> exports, Local<Object> module) {
     NODE_SET_METHOD(exports, "unsubscribestream", NodeUnSubStream); //todo - done
 	NODE_SET_METHOD(exports, "muteremoteaudio", NodeMuteRemoteAudio); //todo - done testdone
 	NODE_SET_METHOD(exports, "muteremotevideo", NodeMuteRemoteVideo); //todo - done testdone
+	
 	NODE_SET_METHOD(exports, "startrecord", NodeStartRecord); // testdone
 	NODE_SET_METHOD(exports, "stoprecord", NodeStopRecord); //todo - done testdone
 

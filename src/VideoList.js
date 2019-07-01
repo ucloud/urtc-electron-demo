@@ -78,10 +78,10 @@ export default class VideoList extends Component{
         getSdk().then(resp=>{
             const urtcSdk = resp.urtcSdk;
             if('localScreen' === streamId){
-                urtcSdk.mutelocalvideo(muted, 2);
+                urtcSdk.MuteLocalVideo(muted, 2);
                 addLog('info','您点击了'+type+'本地桌面画面！');
             }else if('localCam' === streamId){
-                urtcSdk.mutelocalvideo(muted, 1);
+                urtcSdk.MuteLocalVideo(muted, 1);
                 addLog('info','您点击了'+type+'本地媒体画面！');
             }else{
                 const jsonarg = {} ;
@@ -90,7 +90,7 @@ export default class VideoList extends Component{
                 jsonarg.mtype =  parseInt(mtype) ;
                 jsonarg.mute =  muted ;
                 const jsonStr = JSON.stringify(jsonarg) ;
-                urtcSdk.muteremotevideo(jsonStr);
+                urtcSdk.MuteRemoteVideo(jsonStr);
                 addLog('info','您点击了'+type+' '+streamId+'画面！');
             }
         }).catch(ex=>{
@@ -108,7 +108,7 @@ export default class VideoList extends Component{
         getSdk().then(resp=>{
             const urtcSdk = resp.urtcSdk;
             if('localCam' === streamId){
-                urtcSdk.mutelocalaudio(muted);
+                urtcSdk.MuteLocalAudio(muted);
                 addLog('info','您点击了'+type+'本地媒体声音！');
             }else{
                 const jsonarg = {} ;
@@ -117,7 +117,7 @@ export default class VideoList extends Component{
                 jsonarg.mtype =  parseInt(mtype) ;
                 jsonarg.mute =  muted ;
                 const jsonStr = JSON.stringify(jsonarg) ;
-                urtcSdk.muteremoteaudio(jsonStr);
+                urtcSdk.MuteRemoteAudio(jsonStr);
                 addLog('info','您点击了'+type+' '+streamId+'声音！');
             }
         }).catch(ex=>{
