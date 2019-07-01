@@ -56,7 +56,7 @@ URTCelectron 是UCloud推出的一款适用于 Windows 平台的实时音视频 
 ## 4.5 在线客服
 线上开展音视频对话，对客户的资信情况进行审核，方便金融科技企业实现用户在线签约、视频开户验证以及呼叫中心等功能
 提供云端存储空间及海量数据的处理能力，提供高可用的技术和高稳定的平台
-# 5 如何使用
+# 5 demo 编译使用
 ## 5.1 环境准备
 1 安装nodejs 安装8.x 版本， 10版本会有问题  本demo 安装 8.9.4
 2 安装node-gyp 安装node-gyp@3.5.0 之后的版本可能不支持vs2015 ，只能支持vs2017编译，demo采用node-gyp@3.5.0
@@ -89,3 +89,132 @@ set npm_config_node_gyp=C:\Users\usser\AppData\Roaming\npm\node_modules\node-gyp
 npm config set python python
 ### 找不到编译工具
 npm config set msvs_version 2015
+# 6 正式环境接入使用
+## 6.1 开发语言以及系统要求
+开发语言：C++ + javascript
+系统要求：Windows 7 及以上版本的 Windows 系统
+## 6.2 开发环境
+### 6.2.1 C++ 开发，自己编译electron SDK
+Visual Studio 2015 开发环境 
+Win32 Platform 
+### 6.2.2 Javascript 开发
+* 拷贝工程中URTCSdkEngine.js(java script 接口封装实现)， 拷贝pulgin到自己的目录下，注意URTCSdkEngine.js 中node文件引用路 径为./plugin/lib/release/urtcelectron.node，请保持路径正确，或者更改为自己的目录地址。
+* 在文件中引：import {urtcSdk} from '../URTCSdkEngine';
+## 6.3 初始化
+### 6.3.1 实现eventcallback funtion实现回调处理
+var eventMap={
+    5000:function(){
+        com.addLog('success',"ok");
+    },
+    5001:function () {
+        com.addLog('error','服务器连接断开');
+    },
+    5002:function (resp,com) {
+        //加入房间
+    },
+    5003:function (resp,com) {
+        //离开房间
+    },
+    5004:function (resp,com) {
+        //重连中
+    },
+    5005:function (resp,com) {
+        //重连成功
+    },
+    5006:function (resp,com) {
+        //视频发布成功
+    },
+    5007:function (resp,com) {
+        //取消媒体 {code:0 msg:msg, data:{}}
+    },
+    5008:function (resp,com) {
+       // 用户加入房间
+    },
+    5009:function (resp,com) {
+       // 用户离开房间
+    },
+    5010:function (resp,com) {
+       // 房间内新媒体发布
+    },
+    5011:function (resp,com) {
+         //房间内有媒体流移除
+    },
+    5012:function (resp,com) {
+        //订阅媒体流响应
+   },
+   5013:function (resp,com) {
+        // 取消订阅媒体流响应
+    },
+    5014:function (resp,com) {
+        // mute  本地媒体流响应
+    },
+    5015:function (resp,com) {
+       // mute 远端媒体流响应
+    },
+    5016:function (resp,com) {
+        // 远端媒体流变化
+    },
+    5019:function (resp,com) {
+        //开始录制请求响应
+    },
+    5020:function (resp,com) {
+        //停止请求录制响应
+    }
+}
+initEngine = (eventId,objectStr)=>{
+    if(!objectStr){
+        objectStr = "{}";
+    }
+    var fun = enentMap[eventId];
+    // console.log(eventId,objectStr);
+    this.addLog('info',`SDK返回 ${eventId}:${objectStr}`);
+    if(fun){
+         fun(JSON.parse(objectStr),this);
+    }
+ }
+### 6.3.2 调用接口初始化
+urtcSdk.InitRtcEngine(initEngine);
+       urtcSdk.SetSdkMode(1) ; 
+       urtcSdk.SetStreamRole(2) ;
+       urtcSdk.SetAudioOnlyMode(false) ;
+       urtcSdk.SetAutoPubSub(false, false) ;
+       urtcSdk.SetVideoProfile(1) ;
+       urtcSdk.SetScreenOutProfile(2) ;
+       urtcSdk.SetTokenSeckey("9129304dbf8c5c4bf68d70824462409f") ;
+## 6.4 加入房间
+const jsonarg = {} ;
+          jsonarg.uid = userid ;
+          jsonarg.rid = roomid ;
+          jsonarg.appid = "URtc-h4r1txxy" ;// test appid 
+          const jsonStr = JSON.stringify(jsonarg) ;
+          console.log("joinroom : "+ jsonStr) ;
+          urtcSdk.JoinRoom(jsonStr);
+## 6.5 发布 取消发布
+### 发布流：
+urtcSdk.PublishStream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
+### 取消发布：
+urtcSdk.UnPublishStream(1);
+## 6.6 订阅流 取消订阅
+### 订阅流：
+const jsonarg = {} ;
+jsonarg.uid = userid ;
+jsonarg.audio = true ;
+jsonarg.video = true; 
+jsonarg.mtype = 1;
+const jsonStr = JSON.stringify(jsonarg) ;
+console.log("joinroom : "+ jsonStr) ;
+urtcSdk. SubscribeStream (jsonStr);
+### 取消订阅：
+const jsonarg = {} ;
+jsonarg.uid = userid ;
+jsonarg.audio = true ;
+jsonarg.video = true; 
+jsonarg.mtype = 1;
+const jsonStr = JSON.stringify(jsonarg) ;
+console.log("joinroom : "+ jsonStr) ;
+urtcSdk. UnSubscribeStream (jsonStr);
+## 6.7 离开房间
+urtcSdk.LeaveRoom()
+##6.8 编译运行
+开始体验demo
+
