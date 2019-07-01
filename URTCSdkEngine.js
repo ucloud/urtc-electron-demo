@@ -67,7 +67,7 @@ export class URTCSdkEngine {
         return this.urtcsdk.getplayoutnums() ;
     }
     /**
-     * 获取麦克风设备信息  返回名称和设备id
+     * 获取扬声器设备信息  返回名称和设备id
      * @param pos 数组下标位置
      * @param jsonstr 设备信息 
      *  json格式  {
@@ -376,7 +376,7 @@ export class URTCSdkEngine {
         return this.urtcsdk.mutelocalaudio(mute) ;
     }
     /**
-     * 取消发布本地视频流
+     * 打开关闭本地视频流
      * @param mtype: int  1 camera 2 screen
      * @param mute: boolean  true 关闭视频流 false 打开视频流
      * @return int 0 成功 非0失败
@@ -454,11 +454,11 @@ export class URTCSdkEngine {
         return this.urtcsdk.muteremoteaudio(jsonstr) ;
     }
     /**
-     * 打开关闭远端摄像头视频流
+     * 打开关闭远端视频流
      * @param jsonstr:  string json 格式
      * {
         uid: 用户标识 string
-        mute: 是否关闭远端摄像头视频流 boolean true 关闭 false 打开
+        mute: 是否关闭远端视频流 boolean true 关闭 false 打开
         mtype: 媒体流类型 int 填1 即可
      * }
      * @return int 0 成功 非0失败
