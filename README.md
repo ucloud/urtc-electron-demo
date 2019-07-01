@@ -58,6 +58,7 @@ URTCelectron 是UCloud推出的一款适用于 Windows 平台的实时音视频 
 提供云端存储空间及海量数据的处理能力，提供高可用的技术和高稳定的平台
 # 5 demo 编译使用
 ## 5.1 环境准备
+```
 1 安装nodejs 安装8.x 版本， 10版本会有问题  本demo 安装 8.9.4
 2 安装node-gyp 安装node-gyp@3.5.0 之后的版本可能不支持vs2015 ，只能支持vs2017编译，demo采用node-gyp@3.5.0
 npm install -g node-gyp@3.5.0
@@ -70,6 +71,8 @@ npm i electron --arch=ia32 --save-dev   安装electron 版本
 编译好的库位于 更目录 build/release 目录下
 8 将库拷贝到 pulgin/lib/release 目录下
 9 调试打包
+```
+
 ## 5.2 调试
 打开根目录 index.js 文件
 注释掉 mainWindow.loadFile('dist/index.html')  
@@ -102,6 +105,7 @@ Win32 Platform
 * 在文件中引：import {urtcSdk} from '../URTCSdkEngine';
 ## 6.3 初始化
 ### 6.3.1 实现eventcallback funtion实现回调处理
+``` javascript
 var eventMap={
     5000:function(){
         com.addLog('success',"ok");
@@ -172,30 +176,44 @@ initEngine = (eventId,objectStr)=>{
          fun(JSON.parse(objectStr),this);
     }
  }
+ ```
+
 ### 6.3.2 调用接口初始化
+``` javascript
 urtcSdk.InitRtcEngine(initEngine);
-       urtcSdk.SetSdkMode(1) ; 
-       urtcSdk.SetStreamRole(2) ;
-       urtcSdk.SetAudioOnlyMode(false) ;
-       urtcSdk.SetAutoPubSub(false, false) ;
-       urtcSdk.SetVideoProfile(1) ;
-       urtcSdk.SetScreenOutProfile(2) ;
-       urtcSdk.SetTokenSeckey("9129304dbf8c5c4bf68d70824462409f") ;
+urtcSdk.SetSdkMode(1) ;
+urtcSdk.SetStreamRole(2) ;
+urtcSdk.SetAudioOnlyMode(false) ;
+urtcSdk.SetAutoPubSub(false, false) ;
+urtcSdk.SetVideoProfile(1) ;
+urtcSdk.SetScreenOutProfile(2) ;
+urtcSdk.SetTokenSeckey("9129304dbf8c5c4bf68d70824462409f") ;
+```
+
 ## 6.4 加入房间
+``` javascript
 const jsonarg = {} ;
-          jsonarg.uid = userid ;
-          jsonarg.rid = roomid ;
-          jsonarg.appid = "URtc-h4r1txxy" ;// test appid 
-          const jsonStr = JSON.stringify(jsonarg) ;
-          console.log("joinroom : "+ jsonStr) ;
-          urtcSdk.JoinRoom(jsonStr);
+jsonarg.uid = userid ;
+jsonarg.rid = roomid ;
+jsonarg.appid = "URtc-h4r1txxy" ;// test appid 
+const jsonStr = JSON.stringify(jsonarg) ;
+console.log("joinroom : "+ jsonStr) ;
+urtcSdk.JoinRoom(jsonStr);
+```
+
 ## 6.5 发布 取消发布
 ### 发布流：
+``` javascript
 urtcSdk.PublishStream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
+``` 
+
 ### 取消发布：
+``` javascript
 urtcSdk.UnPublishStream(1);
+```
 ## 6.6 订阅流 取消订阅
 ### 订阅流：
+``` javascript
 const jsonarg = {} ;
 jsonarg.uid = userid ;
 jsonarg.audio = true ;
@@ -204,7 +222,10 @@ jsonarg.mtype = 1;
 const jsonStr = JSON.stringify(jsonarg) ;
 console.log("joinroom : "+ jsonStr) ;
 urtcSdk. SubscribeStream (jsonStr);
+```
+
 ### 取消订阅：
+``` javascript
 const jsonarg = {} ;
 jsonarg.uid = userid ;
 jsonarg.audio = true ;
@@ -213,8 +234,9 @@ jsonarg.mtype = 1;
 const jsonStr = JSON.stringify(jsonarg) ;
 console.log("joinroom : "+ jsonStr) ;
 urtcSdk. UnSubscribeStream (jsonStr);
+```
 ## 6.7 离开房间
 urtcSdk.LeaveRoom()
-##6.8 编译运行
+## 6.8 编译运行
 开始体验demo
 
