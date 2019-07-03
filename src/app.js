@@ -275,11 +275,13 @@ var enentMap={
     },
     5009:function (resp,com) {
         com.addLog('success','用户：'+resp.data.uid+' 离开房间！');
+        let { videos, allVideoWindows, roomId} = com.state;
         const newVideos = [];
         const userId = resp.data.uid;
         videos.map(video => {
             if(video.userId === userId){
                 const streamId = video.streamid;
+                com.addLog('success','用户：'+resp.data.uid+' streamId :'+streamId);
                 const win = allVideoWindows[streamId];
                 if(streamId && win){
                     if(video.isLocal){

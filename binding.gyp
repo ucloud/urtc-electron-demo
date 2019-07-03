@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "urtcelectron",
+      "target_name": "UCloudRtcElectronEngine",
 	  'configurations': {
             'Debug': {
                 'msvs_settings': {
@@ -19,16 +19,16 @@
             },
         },
       "sources": [
-					"rtcplugin/urtcplugin.cc",
+					"rtcplugin/UCloudRtcElectronPlugin.cc",
 					"rtcplugin/node_async_queue.cpp",
 					"rtcplugin/node_async_queue.h",
 					"rtcplugin/node_event_handler.cpp",
 					"rtcplugin/node_event_handler.h",
 					"rtcplugin/node_napi_api.cpp",
 					"rtcplugin/node_napi_api.h",
-					"rtcplugin/urtcengineimpl.cc",
-					"rtcplugin/urtcengineimpl.h",
-					"rtcplugin/urtcelecdefine.h",
+					"rtcplugin/UCloudRtcElectronEngine.cc",
+					"rtcplugin/UCloudRtcElectronEngine.h",
+					"rtcplugin/UCloudRtcElectronDefine.h",
 					"rtcplugin/node_log.cpp",
 					"rtcplugin/node_log.h"
 			],
@@ -44,7 +44,7 @@
 	  'link_settings': {
 		'libraries': [
 			'-ljsoncpp.lib',
-			'-lURTCWinMediaEngine.lib'
+			'-lUCloudRtcMediaEngine.lib'
 		]
       },
     }

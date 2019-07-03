@@ -1,7 +1,7 @@
 var log4js = require('log4js');
 
 log4js.configure({
-    appenders: { webrtc: { type: 'dateFile',maxLogSize: 4096, filename:'./logs/log',alwaysIncludePattern: true,pattern: 'yyyy-MM-dd.log'}},
+    appenders: { webrtc: { type: 'dateFile',maxLogSize: 4*1024*1024, filename:'./logs/urtcelectronlog',alwaysIncludePattern: true,pattern: 'yyyy-MM-dd.log'}},
     replaceConsole: true,
     categories: { default: { appenders: ['webrtc'], level: 'debug' } }
 });

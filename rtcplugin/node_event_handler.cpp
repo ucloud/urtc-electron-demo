@@ -117,7 +117,7 @@ namespace ucloud {
         void NodeEventHandler::onEventNotify_node(int eventid, const char* msg)
         {
             FUNC_TRACE;
-            MAKE_JS_CALL_2(RTC_ONEVENT_NOTIFY, int32, eventid, string, msg);
+            MAKE_JS_CALL_2(UCLOUD_RTC_ONEVENT_NOTIFY, int32, eventid, string, msg);
         }
 
         void NodeEventHandler::onEventNotify(int eventid, const char* msg)
@@ -132,7 +132,7 @@ namespace ucloud {
 		void NodeEventHandler::onAudioVolNotify_node(int audiovol)
 		{
 			FUNC_TRACE;
-			MAKE_JS_CALL_1(RTC_ONAUDIOVOL_NOTIFY, int32, audiovol);
+			MAKE_JS_CALL_1(UCLOUD_RTC_ONAUDIOVOL_NOTIFY, int32, audiovol);
 		}
 
 		void NodeEventHandler::onAudioVolNotify(int audiovol)

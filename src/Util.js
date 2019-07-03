@@ -1,8 +1,7 @@
 import 'whatwg-fetch';
 const electron = require('electron');
 const {BrowserWindow} = electron.remote;
-import {urtcSdk} from '../URTCSdkEngine';
-//import urtcSdk from '../plugin/lib/release/urtcelectron.node';
+import {urtcSdk} from '../UCloudRtcElectronEngine';
 import EventEmitter from "./EventEmitter";
 
 let localUserInfo = {};

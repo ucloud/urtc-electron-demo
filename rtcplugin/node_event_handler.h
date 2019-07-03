@@ -7,8 +7,8 @@
 #include "node_napi_api.h"
 namespace ucloud {
     namespace rtc {
-#define RTC_ONEVENT_NOTIFY "onevent"
-#define RTC_ONAUDIOVOL_NOTIFY "onaudiovol"
+#define UCLOUD_RTC_ONEVENT_NOTIFY "onevent"
+#define UCLOUD_RTC_ONAUDIOVOL_NOTIFY "onaudiovol"
 
         class NodeRtcEngine;
         class NodeEventHandler
