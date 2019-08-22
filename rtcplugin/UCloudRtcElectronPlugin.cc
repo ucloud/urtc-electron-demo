@@ -237,7 +237,7 @@ void NodeStartMicTest(const FunctionCallbackInfo<Value>& args) {
 	UCloudRtcMediaDevice* mediadevice = m_elecengine->GetMeidaDevice();
 	if (mediadevice)
 	{
-		nRetValue = mediadevice->startRecordingDeviceTest(buf);
+		nRetValue = mediadevice->startRecordingDeviceTest(buf, m_elecengine);
 	}
 	Local<Number> num = Number::New(isolate, nRetValue);
 	args.GetReturnValue().Set(num);
@@ -691,6 +691,55 @@ void NodeSetAudioOnlyMode(const FunctionCallbackInfo<Value>& args) {
 	args.GetReturnValue().Set(retValue);
 }
 
+void NodeStartAudioMixing(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	if (args.Length() < 1) {
+		isolate->ThrowException(Exception::TypeError(
+			String::NewFromUtf8(isolate, "StartAudioMixing Wrong number of arguments")));
+		return;
+	}
+
+	Local<String> jsonbody = args[0]->ToString();
+    int32_t bodylen = jsonbody->Utf8Length();
+	char *jsonmsg = new char[bodylen + 1];
+	memset(jsonmsg, 0, bodylen + 1);
+	jsonbody->WriteUtf8(jsonmsg);
+
+	Json::Reader reader;
+	Json::Value retObj;
+	reader.parse(jsonmsg, retObj, false);
+	LOG_INFO("NodeStartAudioMixing = %s", jsonmsg) ;
+
+	const char* filepath = retObj["filepath"].asCString() ;
+	bool repleace = retObj["repleace"].asBool() ;
+	bool loop = retObj["loop"].asInt() ;
+	float vol = retObj["vol"].asFloat() ;
+    LOG_INFO("NodeStartAudioMixing filepath = %s", filepath ) ;
+	
+	int32_t nRetValue = -1;
+	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
+	if (rtcengine)
+	{
+		nRetValue = rtcengine->startAudioMixing(filepath, repleace, loop, vol);
+		LOG_INFO("NodeStartAudioMixing = %d", nRetValue) ;
+	}
+
+	Local<Number> retValue = Number::New(isolate, nRetValue);
+	args.GetReturnValue().Set(retValue);
+}
+
+void NodeStopAudioMixing(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	int32_t nRetValue = -1;
+	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
+	if (rtcengine)
+	{
+		nRetValue = rtcengine->stopAudioMixing();
+	}
+
+	Local<Number> retValue = Number::New(isolate, nRetValue);
+	args.GetReturnValue().Set(retValue);
+}
 
 void NodeSetVideoProfile(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
@@ -1260,6 +1309,8 @@ void NodeStartRecord(const FunctionCallbackInfo<Value>& args) {
 	int32_t recordtype = retObj["rtype"].asInt();
 	int32_t waterpos = retObj["wpos"].asInt();
 	int32_t mainviewmtype = retObj["mvtype"].asInt();
+	std::string bucket = retObj["bucket"].asString();
+	std::string region = retObj["region"].asString();
 
 	int32_t nRetValue = -1;
 	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
@@ -1274,6 +1325,8 @@ void NodeStartRecord(const FunctionCallbackInfo<Value>& args) {
 		recordconfig.mRecordType = static_cast<eUCloudRtcRecordType>(recordtype);
 		recordconfig.mWatermarkPos = static_cast<eUCloudRtcWaterMarkPos>(waterpos);
 		recordconfig.mMainviewmediatype = static_cast<eUCloudRtcMeidaType>(mainviewmtype);
+		recordconfig.mBucket = bucket.data() ;
+		recordconfig.mBucketRegion = region.data() ;
 		nRetValue = rtcengine->startRecord(recordconfig);
 	}
 
@@ -1465,6 +1518,8 @@ void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "setscreencapturepragram", NodeSetScreenPagram); //testdone
 	NODE_SET_METHOD(exports, "setaudioonlymode", NodeSetAudioOnlyMode); //testdone
 	NODE_SET_METHOD(exports, "setaudopubsub", NodeSetAutoPubSub); //testdone
+	NODE_SET_METHOD(exports, "startaudiomixing", NodeStartAudioMixing); //testdone
+	NODE_SET_METHOD(exports, "stopaudiomixing", NodeStopAudioMixing); //testdone
 
 	NODE_SET_METHOD(exports, "joinroom", NodeJoinChannel); // testdone
     NODE_SET_METHOD(exports, "leaveroom", NodeLeaveChannel); //todo - done testdone

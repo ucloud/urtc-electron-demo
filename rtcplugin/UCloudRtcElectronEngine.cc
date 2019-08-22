@@ -34,7 +34,9 @@ int UCloudRtcElectronEngine::InitDevEngine(Persistent<Object>& obj, Persistent<F
 	{
 		m_eventhandler->addEventHandler(UCLOUD_RTC_ONAUDIOVOL_NOTIFY, obj, persist);
 	}
-	m_mediadevice = UCloudRtcMediaDevice::sharedInstance(this);
+	m_mediadevice = UCloudRtcMediaDevice::sharedInstance();
+	m_mediadevice->InitAudioMoudle() ;
+	m_mediadevice->InitVideoMoudle() ;
 	return 0 ;
 	
 }
@@ -46,6 +48,8 @@ int UCloudRtcElectronEngine::UnInitDevEngine()
 		m_mediadevice->stopCamTest();
 		m_mediadevice->stopPlaybackDeviceTest();
 		m_mediadevice->stopRecordingDeviceTest();
+		m_mediadevice->UnInitAudioMoudle() ;
+		m_mediadevice->UnInitVideoMoudle() ;
 		m_mediadevice->destory();
 		m_mediadevice = nullptr;
 	}
@@ -62,7 +66,9 @@ int UCloudRtcElectronEngine::InitRTCEngine(Persistent<Object>& obj, Persistent<F
 	{
 		m_eventhandler->addEventHandler(UCLOUD_RTC_ONEVENT_NOTIFY, obj, persist);
 	}
-	m_rtcengine = UCloudRtcEngine::sharedInstance(this);
+	m_rtcengine = UCloudRtcEngine::sharedInstance();
+	m_rtcengine->regRtcEventListener(this) ;
+	m_rtcengine->setChannelType(UCLOUD_RTC_CHANNEL_TYPE_COMMUNICATION) ;
 	return 0;
 }
 
@@ -397,7 +403,6 @@ void UCloudRtcElectronEngine::onError(int error)
 {
 }
 
-//miclevel
 void UCloudRtcElectronEngine::onMiceAudioLevel(int volume)
 {
 	if (m_eventhandler)

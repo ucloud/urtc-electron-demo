@@ -1,6 +1,6 @@
 // interfalce desc
-#ifndef _UCLOUD_RTC_ENGINE_SDK_CPP_H_
-#define _UCLOUD_RTC_ENGINE_SDK_CPP_H_
+#ifndef _UCLOUD_RTC_ENGINE_SDK_H_
+#define _UCLOUD_RTC_ENGINE_SDK_H_
 
 #include "UCloudRtcComDefine.h"
 
@@ -8,6 +8,7 @@ class  _EXPORT_API UCloudRtcEventListener
 {
 public:
 	virtual void onServerDisconnect() {}
+	//rtc engine
 	virtual void onJoinRoom(int code, const char* msg, const char* uid, const char* roomid) {}
 	virtual void onLeaveRoom(int code, const char* msg, const char* uid, const char* roomid) {}
 
@@ -33,16 +34,15 @@ public:
 	virtual void onRemoteTrackNotify(const char* uid,
 		eUCloudRtcMeidaType mediatype, eUCloudRtcTrackType tracktype, bool mute) {}
 
-	virtual void onSendRTCStats(tUCloudRtcStreamStats& rtstats) {}
-	virtual void onRemoteRTCStats(tUCloudRtcStreamStats rtstats) {}
-
 	virtual void onStartRecord(const int code, const char* msg, const char* recordid) {}
 	virtual void onStopRecord(const int code, const char* msg, const char* recordid) {}
 
-	// vol level
-	virtual void onLocalAudioLevel(int volume) {}
+	virtual void onSendRTCStats(tUCloudRtcStreamStats& rtstats) {}
+	virtual void onRemoteRTCStats(tUCloudRtcStreamStats rtstats) {}
 	virtual void onRemoteAudioLevel(const char* uid, int volume) {}
 
+	//common
+	virtual void onLocalAudioLevel(int volume) {}
 	virtual void onKickoff(int code) {}
 	virtual void onWarning(int warn) {}
 	virtual void onError(int error) {}
@@ -51,22 +51,27 @@ public:
 class _EXPORT_API UCloudRtcEngine
 {
 public:
-	static UCloudRtcEngine *sharedInstance(UCloudRtcEventListener *listener);
+	static UCloudRtcEngine *sharedInstance();
 	static void destroy();
 	static const char *getSdkVersion();
 
+	virtual void regRtcEventListener(UCloudRtcEventListener* listener) = 0;
+
 	virtual int setSdkMode(eUCloudRtcSdkMode mode) = 0;
+	virtual int setChannelType(eUCloudRtcChannelType roomtype) = 0;
 	virtual int setStreamRole(eUCloudRtcUserStreamRole role) = 0;
 	virtual void setLogLevel(eUCloudRtcLogLevel level) = 0;
 	virtual void setTokenSecKey(const char* seckey) = 0;
 	virtual int setAutoPublishSubscribe(bool autoPub, bool autoSub) = 0;
 	virtual int setAudioOnlyMode(bool audioOnly) = 0;
 
+	virtual int enableExtendVideocapture(bool enable, UCloudRtcExtendVideoCaptureSource* videocapture) = 0;
+	virtual int startAudioMixing(const char* filepath, bool replace, bool loop,float musicvol) = 0;
+	virtual int stopAudioMixing() = 0;
+	virtual void regAudioFrameCallback(UCloudRtcAudioFrameCallback* callback) = 0;
+
 	virtual int joinChannel(tUCloudRtcAuth& auth) = 0;
 	virtual int leaveChannel() = 0;
-
-	virtual int startPreview(tUCloudRtcVideoCanvas& view) = 0;
-	virtual int stopPreview(tUCloudRtcVideoCanvas& view) = 0;
 
 	virtual void setVideoProfile(eUCloudRtcVideoProfile profile) = 0;
 	virtual int  getDesktopNums() = 0;
@@ -75,14 +80,15 @@ public:
 
 	virtual int publish(eUCloudRtcMeidaType type, bool hasvideo, bool hasaudio) = 0; 
 	virtual int unPublish(eUCloudRtcMeidaType type) = 0;
+	virtual int startPreview(tUCloudRtcVideoCanvas& view) = 0;
+	virtual int stopPreview(tUCloudRtcVideoCanvas& view) = 0;
 	virtual int muteLocalMic(bool mute) = 0;
 	virtual int muteLocalVideo(bool mute, eUCloudRtcMeidaType streamtype) = 0;
 
-	virtual int startRemoteView(tUCloudRtcVideoCanvas& view) = 0;
-	virtual int stopRemoteView(tUCloudRtcVideoCanvas& view) = 0;
 	virtual int subscribe(tUCloudRtcStreamInfo& info) = 0;
 	virtual int unSubscribe(tUCloudRtcStreamInfo& info) = 0;
-
+	virtual int startRemoteView(tUCloudRtcVideoCanvas& view) = 0;
+	virtual int stopRemoteView(tUCloudRtcVideoCanvas& view) = 0;
 	virtual int muteRemoteAudio(tUCloudRtcMuteSt& info, bool mute) = 0;
 	virtual int muteRemoteVideo(tUCloudRtcMuteSt& info, bool mute) = 0;
 
@@ -101,10 +107,7 @@ public:
 	virtual bool isAudioOnly() = 0;
 
 protected:
-	UCloudRtcEngine() { _delegate = nullptr; }
 	virtual ~UCloudRtcEngine() {}
-
-	UCloudRtcEventListener *_delegate;
 };
 
 #endif

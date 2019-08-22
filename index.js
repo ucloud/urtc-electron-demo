@@ -33,6 +33,7 @@ function createWindow() {
     });
     //隐藏菜单
     mainWindow.setMenu(null);
+	//mainWindow.loadURL('https://demo.urtc.com.cn')
     // and load the index.html of the app.
     //mainWindow.loadFile('dist/index.html');
     mainWindow.loadURL('http://localhost:3000/index.html')

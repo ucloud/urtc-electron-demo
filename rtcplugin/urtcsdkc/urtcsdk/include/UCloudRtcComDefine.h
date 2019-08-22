@@ -45,6 +45,7 @@ typedef enum {
 
 typedef struct {
 	const char* mUserId;
+	const char* mStreamId;
 	bool mEnableVideo;
 	bool mEnableAudio;
 	bool mEnableData;
@@ -53,6 +54,7 @@ typedef struct {
 
 typedef struct {
 	const char* mUserId;
+	const char* mStreamId;
 	bool mMute;
 	eUCloudRtcMeidaType mStreamMtype;
 }tUCloudRtcMuteSt;
@@ -77,6 +79,8 @@ typedef enum {
 
 typedef struct {
 	const char* mMainviewuid;
+	const char* mBucket;
+	const char* mBucketRegion;
 	eUCloudRtcRecordProfile mProfile;
 	eUCloudRtcRecordType mRecordType;
 	eUCloudRtcWaterMarkPos mWatermarkPos;
@@ -118,7 +122,12 @@ typedef enum {
 	UCLOUD_RTC_SCREEN_PROFILE_HIGH = 3
 } eUCloudRtcScreenProfile;
 
-//stream role
+//roomtype
+typedef enum {
+	UCLOUD_RTC_CHANNEL_TYPE_COMMUNICATION
+}eUCloudRtcChannelType;
+
+//stream role 
 typedef enum {
 	UCLOUD_RTC_USER_STREAM_ROLE_PUB, // up
 	UCLOUD_RTC_USER_STREAM_ROLE_SUB,// down
@@ -136,6 +145,7 @@ typedef struct
 {
 	int mVideoView;
 	const char* mUserId;
+	const char* mStreamId;
 	eUCloudRtcMeidaType mStreamMtype;
 	eUCloudRtcRenderMode mRenderMode;
 }tUCloudRtcVideoCanvas;
@@ -151,6 +161,7 @@ typedef struct
 
 typedef struct {
 	const char* mUserId;
+	const char* mStreamId;
 	int mStreamMtype;
 	int mTracktype; // 1 audio 2 video
 	int mAudioBitrate = 0;     // audio bitrate,unit:bps
@@ -160,6 +171,43 @@ typedef struct {
 	int mVideoFrameRate = 0;     // video frames per secon
 	float mPacketLostRate = 0.0f;
 }tUCloudRtcStreamStats;
+
+
+typedef struct {
+	const char* mUserId;
+	const char* mStreamId;
+	void* mAudioData;
+	int mBytePerSimple;
+	int mSimpleRate;
+	int mChannels;
+	int mNumSimples;
+}tUCloudRtcAudioFrame;
+
+typedef struct {
+	unsigned char* mYbuf;
+	unsigned char* mUbuf;
+	unsigned char* mVbuf;
+	int mWidth;
+	int mHeight;
+}tUCloudRtcI420VideoFrame;
+
+class  _EXPORT_API UCloudRtcAudioFrameCallback
+{
+public:
+	virtual void onLocalAudioFrame(tUCloudRtcAudioFrame* audioframe) {}
+	virtual void onRemoteMixAudioFrame(tUCloudRtcAudioFrame* audioframe) {}
+};
+class  _EXPORT_API UCloudRtcExtendVideoCaptureSource
+{
+public:
+	virtual  bool doCaptureFrame(tUCloudRtcI420VideoFrame* videoframe) = 0;
+};
+
+class _EXPORT_API UCloudRtcVideoFrameObserver 
+{
+public:
+	virtual  void onCaptureFrame(unsigned char* videoframe, int buflen) = 0;
+};
 
 #endif
 

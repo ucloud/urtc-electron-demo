@@ -295,6 +295,27 @@ export class UCloudRtcElectronEngine {
         return this.urtcsdk.setaudioonlymode(audioonly) ;
     }
     /**
+     * 启动背景音添加
+      * @param jsonstr
+     * {
+         filepath:本地文件路径 string
+         repleace 是否替换micphone bool
+         loop 是否循环播放
+         vol: 背景音音量
+     * }
+     * @return int 0 成功 非0失败
+    */
+    StartAudioMixing(jsonbody) {
+        return this.urtcsdk.startaudiomixing(jsonbody) ;
+    }
+    /**
+     * 停止背景音混音
+     * @return int 0 成功 非0失败
+    */
+    StopAudioMixing() {
+        return this.urtcsdk.stopaudiomixing() ;
+    }   
+    /**
      * 设置自动发布订阅
      * @param autopub true 主动发布  false 手动调用发布 
      * @param autosub true 主动订阅 false 手动调用发布

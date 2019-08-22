@@ -1,17 +1,23 @@
 #ifndef _UCLOUD_RTC_MEDIA_DEVICE_CPP_H_
 #define _UCLOUD_RTC_MEDIA_DEVICE_CPP_H_
-#include "UCloudRtcComDefine.h"
+#include "UCloudRTCComDefine.h"
 
-class  _EXPORT_API UCloudRtcMediaListener
+class  _EXPORT_API UCloudRtcAudioLevelListener
 {
 public:
-	virtual void onMiceAudioLevel(int volume) {}
+	virtual void onMicAudioLevel(int volume) {}
 };
 
 class _EXPORT_API UCloudRtcMediaDevice {
 public:
-	static UCloudRtcMediaDevice *sharedInstance(UCloudRtcMediaListener *listener);
+	static UCloudRtcMediaDevice *sharedInstance();
 	static void destory();
+
+	virtual int InitAudioMoudle() =0;
+	virtual int UnInitAudioMoudle() = 0;
+	virtual int InitVideoMoudle() = 0;
+	virtual int UnInitVideoMoudle() = 0;
+
 	virtual int getCamNums() = 0;
 	virtual int getRecordDevNums() = 0;
 	virtual int getPlayoutDevNums() = 0;
@@ -37,16 +43,18 @@ public:
 	virtual int startCamTest(const char deviceId[MAX_DEVICE_ID_LENGTH], eUCloudRtcVideoProfile profile, void* hwnd) = 0;
 	virtual int stopCamTest() = 0;
 
-	virtual int startRecordingDeviceTest(const char deviceId[MAX_DEVICE_ID_LENGTH]) = 0;
+	virtual int startRecordingDeviceTest(const char deviceId[MAX_DEVICE_ID_LENGTH], UCloudRtcAudioLevelListener* audiolevel) = 0;
 	virtual int stopRecordingDeviceTest() = 0;
 
 	virtual int startPlaybackDeviceTest(const char deviceId[MAX_DEVICE_ID_LENGTH], const char* testAudioFilePath) = 0;
 	virtual int stopPlaybackDeviceTest() = 0;
 
+	virtual int startCaptureFrame(eUCloudRtcVideoProfile profile,UCloudRtcVideoFrameObserver* observer) = 0;
+	virtual int stopCaptureFrame() = 0;
+
 protected:
-	UCloudRtcMediaDevice() { _delegate = nullptr; }
+	UCloudRtcMediaDevice() { }
 	virtual ~UCloudRtcMediaDevice() {}
-	UCloudRtcMediaListener *_delegate;
 };
 
 #endif

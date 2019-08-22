@@ -111,15 +111,25 @@ export default class PageBottom extends Component{
         addLog('info','您点击了开始录制！');
         if(roomId){
             getSdk().then(resp=>{
+                // const jsonarg = {} ;
+                // jsonarg.mainuid = "" ;
+                // jsonarg.profile = 1 ;
+                // jsonarg.rtype = 1 ;
+                // jsonarg.wpos = 1 ;
+                // jsonarg.mvtype = 1 ;
+                // const jsonStr = JSON.stringify(jsonarg) ;
+                // console.log("startRecord : "+ jsonStr) ;
+                // resp.urtcSdk.StartRoomRcord(jsonStr);
+
                 const jsonarg = {} ;
-                jsonarg.mainuid = "" ;
-                jsonarg.profile = 1 ;
-                jsonarg.rtype = 1 ;
-                jsonarg.wpos = 1 ;
-                jsonarg.mvtype = 1 ;
+                jsonarg.filepath = "D://test.mp3" ;
+                jsonarg.repleace = false ;
+                jsonarg.loop = true ;
+                jsonarg.vol = 0.5 ;
                 const jsonStr = JSON.stringify(jsonarg) ;
-                console.log("startRecord : "+ jsonStr) ;
-                resp.urtcSdk.StartRoomRcord(jsonStr);
+                console.log("startaudiomixing : "+ jsonStr) ;
+                resp.urtcSdk.StartAudioMixing(jsonStr);
+                this.setState({recording:true});
             }).catch(ex=>{
                 this.setState({startrecording:false});
                 addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);

@@ -8,7 +8,7 @@
 
 class UCloudRtcElectronEngine : 
 	public UCloudRtcEventListener,  
-	public UCloudRtcMediaListener{
+	public UCloudRtcAudioLevelListener{
 public:
 	UCloudRtcElectronEngine();
 	virtual ~UCloudRtcElectronEngine();
