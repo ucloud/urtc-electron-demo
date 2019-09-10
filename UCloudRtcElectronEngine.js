@@ -257,6 +257,14 @@ export class UCloudRtcElectronEngine {
         return this.urtcsdk.setvideoprofile(profile) ;
     }
     /**
+     * 设置房间类型
+     * @param chtype 1 实时互动 2 live
+     * @return int 0 成功 非0失败
+     */
+    SetChannelType(chtype) {
+        return this.urtcsdk.setchanneltype(chtype) ;
+    }
+    /**
      * 设置桌面采集输出等级
      * @param profile 1 低质量 2 中质量 3 高质量
      * @return int 0 成功 非0失败
@@ -496,6 +504,8 @@ export class UCloudRtcElectronEngine {
         profile: 录制视频时对外输出等级 int 1 标清 2 高清 3 超高清
         rtype:  录制类型 int 1 录制混音 2 录制音视频混流
         wpos: 录制视频时水印位置 1 左上 2 左下 3 右上 4 右下
+        bucket: "urtcrecord" ufile 对应的bucket 地址
+        region: "cn-bj" ufile bucket所在的地区
      * }
      * @return int 0 成功 非0失败
     */

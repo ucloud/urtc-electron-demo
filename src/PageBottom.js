@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Switch} from "antd";
-import { getSdk, messageHanddle } from "./Util";
+import { getSdk, messageHanddle, getLocalUserInfo } from "./Util";
 
 export default class PageBottom extends Component{
     constructor(props){
@@ -111,24 +111,17 @@ export default class PageBottom extends Component{
         addLog('info','您点击了开始录制！');
         if(roomId){
             getSdk().then(resp=>{
-                // const jsonarg = {} ;
-                // jsonarg.mainuid = "" ;
-                // jsonarg.profile = 1 ;
-                // jsonarg.rtype = 1 ;
-                // jsonarg.wpos = 1 ;
-                // jsonarg.mvtype = 1 ;
-                // const jsonStr = JSON.stringify(jsonarg) ;
-                // console.log("startRecord : "+ jsonStr) ;
-                // resp.urtcSdk.StartRoomRcord(jsonStr);
-
                 const jsonarg = {} ;
-                jsonarg.filepath = "D://test.mp3" ;
-                jsonarg.repleace = false ;
-                jsonarg.loop = true ;
-                jsonarg.vol = 0.5 ;
+                jsonarg.mainuid = getLocalUserInfo().userId ;
+                jsonarg.profile = 1 ;
+                jsonarg.rtype = 1 ;
+                jsonarg.wpos = 1 ;
+                jsonarg.mvtype = 1 ;
+                jsonarg.bucket = "urtc-test" ;
+                jsonarg.region = "cn-bj" ;
                 const jsonStr = JSON.stringify(jsonarg) ;
-                console.log("startaudiomixing : "+ jsonStr) ;
-                resp.urtcSdk.StartAudioMixing(jsonStr);
+                console.log("startRecord : "+ jsonStr) ;
+                resp.urtcSdk.StartRoomRcord(jsonStr);
                 this.setState({recording:true});
             }).catch(ex=>{
                 this.setState({startrecording:false});

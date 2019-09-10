@@ -759,6 +759,23 @@ void NodeSetVideoProfile(const FunctionCallbackInfo<Value>& args) {
 	args.GetReturnValue().Set(retValue);
 }
 
+void NodeSetChannelType(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	if (args.Length() < 1) {
+		isolate->ThrowException(Exception::TypeError(
+			String::NewFromUtf8(isolate, "SetChanneltype Wrong number of arguments")));
+		return;
+	}
+	int32_t channeltype = args[0]->Int32Value();
+	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
+	if (rtcengine)
+	{
+		rtcengine->setChannelType(static_cast<eUCloudRtcChannelType>(channeltype));
+	}
+
+	Local<Number> retValue = Number::New(isolate, 0);
+	args.GetReturnValue().Set(retValue);
+}
 
 void NodeSetScreenProfile(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
@@ -1512,6 +1529,7 @@ void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "setsdkmode", NodeSetSdkMode);
 	NODE_SET_METHOD(exports, "setstreamrole", NodeSetStreamRole);   //testdone
 	NODE_SET_METHOD(exports, "setloglevel", NodeSetLogLevel); //testdone
+	NODE_SET_METHOD(exports, "setchanneltype", NodeSetChannelType); //testdone
 	NODE_SET_METHOD(exports, "setvideoprofile", NodeSetVideoProfile); //testdone
 	NODE_SET_METHOD(exports, "setscreenprofile", NodeSetScreenProfile); //testdone
 	NODE_SET_METHOD(exports, "getscreennums", NodeGetScreenNums); //testdone
