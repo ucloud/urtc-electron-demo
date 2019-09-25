@@ -4,11 +4,16 @@
 #include "UCloudRtcEngine.h"
 #include "UCloudRtcMediaDevice.h"
 #include "UCloudRtcElectronDefine.h"
+#include <list>
+#include <mutex>
 #include "node_event_handler.h"
 
 class UCloudRtcElectronEngine : 
 	public UCloudRtcEventListener,  
-	public UCloudRtcAudioLevelListener{
+	public UCloudRtcAudioLevelListener,
+	public UCloudRtcExtendVideoCaptureSource,
+	public UCloudRtcVideoFrameObserver
+	{
 public:
 	UCloudRtcElectronEngine();
 	virtual ~UCloudRtcElectronEngine();
@@ -18,6 +23,11 @@ public:
 
 	int InitRTCEngine(Persistent<Object>& obj, Persistent<Function>& persist);
 	int UnInitRTCEngine();
+
+	int enableExtendVideoSource(bool enable);
+
+	int InitBeautyEngine(int32_t wndview) ;
+	int UnInitBeautyEngine() ;
 
 	UCloudRtcEngine* GetUrtcEngine();
 	UCloudRtcMediaDevice* GetMeidaDevice();
@@ -65,11 +75,28 @@ public:
 
 	//miclevel
 	virtual void onMiceAudioLevel(int volume);
+
+
+	void startVideoCapture(int videoprofile);
+	void stopVideoCapture();
+
+	virtual  void onCaptureFrame(unsigned char* videoframe, int buflen);
+	virtual  bool doCaptureFrame(tUCloudRtcI420VideoFrame* videoframe);
+
+	void selectBundlePath(std::string path);
+	void beautyFrame();
+	void addFrameItem();
 private:
 
 	UCloudRtcEngine*   m_rtcengine;
 	UCloudRtcMediaDevice* m_mediadevice;
+	UCloudRtcMediaDevice* m_usermediadevice;
 	ucloud::rtc::NodeEventHandler* m_eventhandler;
+
+	uint8_t* m_lpImageBuffer;
+	std::list<tVideoFrame*> m_videolist ;
+	std::mutex m_buflock ;
+
 	bool m_engineinit;
 };
 

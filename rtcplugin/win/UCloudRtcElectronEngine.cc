@@ -1,10 +1,17 @@
 #include "UCloudRtcElectronEngine.h"
+extern "C" {
+	#include "beautyapi.h"
+}
+
+#include "VideoPackageQueue.h"
 #include "json/json.h"
+#include "node_log.h"
 
 UCloudRtcElectronEngine::UCloudRtcElectronEngine()
 {
 	m_engineinit = false;
 	m_eventhandler = new ucloud::rtc::NodeEventHandler;
+	m_lpImageBuffer = new uint8_t[0x800000];
 }
 
 UCloudRtcElectronEngine::~UCloudRtcElectronEngine()
@@ -84,6 +91,29 @@ int UCloudRtcElectronEngine::UnInitRTCEngine()
 		m_eventhandler->removeEventHandler(UCLOUD_RTC_ONEVENT_NOTIFY);
 	}
 	return 0;
+}
+
+int UCloudRtcElectronEngine::enableExtendVideoSource(bool enable)
+{
+	if (m_rtcengine)
+	{
+		m_rtcengine->enableExtendVideocapture(enable, this);
+	}
+	return 0 ;
+}
+
+int UCloudRtcElectronEngine::InitBeautyEngine(int32_t wndview) 
+{
+	tBeautyConfig bconfig;
+	bconfig.mVideoWidth = 320;
+	bconfig.mVideoHeight = 180;
+	bconfig.videownd = (void*)wndview ;
+	return InitBeautyMoudle(bconfig) ;
+}
+
+int UCloudRtcElectronEngine::UnInitBeautyEngine() 
+{
+	return UnInitBeautyMoudle() ;
 }
 
 UCloudRtcEngine* UCloudRtcElectronEngine::GetUrtcEngine()
@@ -408,5 +438,135 @@ void UCloudRtcElectronEngine::onMiceAudioLevel(int volume)
 	if (m_eventhandler)
 	{
 		m_eventhandler->onAudioVolNotify(volume);
+	}
+}
+
+void UCloudRtcElectronEngine::startVideoCapture(int videoprofile)
+{
+	if (m_usermediadevice == nullptr)
+	{
+		m_usermediadevice = UCloudRtcMediaDevice::sharedInstance();
+	}
+	CVideoPackageQueue::GetInstance()->SetVideoFrameLen(320 * 180 * 3 / 2);
+	m_usermediadevice->startCaptureFrame(UCLOUD_RTC_VIDEO_PROFILE_320_180, this);
+}
+
+void UCloudRtcElectronEngine::stopVideoCapture()
+{
+	if (m_usermediadevice)
+	{
+		m_usermediadevice->stopCaptureFrame();
+	}
+}
+
+void UCloudRtcElectronEngine::onCaptureFrame(unsigned char* videoframe, int buflen)
+{
+	m_buflock.lock() ;
+	//LOG_INFO("UCloudRtcElectronEngine::onCaptureFrame framelen = %d", buflen ) ;
+	tVideoFrame* video = new tVideoFrame ;
+	video->m_videobuf = new uint8_t[buflen] ;
+	video->m_buflen =  buflen ;
+	memcpy(video->m_videobuf, videoframe, buflen);
+	m_videolist.push_back(video) ;
+	m_buflock.unlock() ;
+
+	if (m_eventhandler)
+	{
+		m_eventhandler->onEventNotify(UCLOUD_RTC_ELEC_EVENT_DOCAPTURE, "");
+	}
+	
+}
+
+bool UCloudRtcElectronEngine::doCaptureFrame(tUCloudRtcI420VideoFrame* videoframe)
+{
+	//m_buflock.lock() ;
+	uint32_t nBufferSize = 0x800000;
+
+	BOOL bSuccess = CVideoPackageQueue::GetInstance()->PopVideoPackage(m_lpImageBuffer, &nBufferSize);
+	if (!bSuccess) {
+	//	m_buflock.unlock() ;
+		return false;
+	}
+		
+	 LOG_INFO("UCloudRtcElectronEngine::doCaptureFrame video width = %d && video height = %d ",  
+	 	videoframe->mWidth, videoframe->mHeight) ;
+	// int size = m_videolist.size() ;
+	// LOG_INFO("UCloudRtcElectronEngine::doCaptureFrame videolist size = %d ",  size) ;
+	// if (size <= 0)
+	// {
+	// 	m_buflock.unlock() ;
+	// 	return false;
+	// }
+	
+	// tVideoFrame* video = m_videolist.front() ;	
+	// if (video)
+	// {
+	// 	//RenderItem(video->m_videobuf, video->m_buflen);
+	// 	//CVideoPackageQueue::GetInstance()->PushVideoPackage(video->m_videobuf, video->m_buflen);
+	// }
+	// m_videolist.pop_front() ;
+	// m_buflock.unlock() ;
+
+	//LOG_INFO("UCloudRtcElectronEngine::doCaptureFrame framelen = %d", nBufferSize ) ;
+
+	memcpy_s(videoframe->mYbuf, videoframe->mHeight*videoframe->mWidth, m_lpImageBuffer, videoframe->mHeight*videoframe->mWidth);
+	memcpy_s(videoframe->mUbuf, videoframe->mHeight*videoframe->mWidth / 4, m_lpImageBuffer+ videoframe->mHeight*videoframe->mWidth,
+		videoframe->mHeight*videoframe->mWidth/4);
+	memcpy_s(videoframe->mVbuf, videoframe->mHeight*videoframe->mWidth / 4, m_lpImageBuffer + 5* videoframe->mHeight*videoframe->mWidth /4,
+		videoframe->mHeight*videoframe->mWidth/4);
+	// delete [] video->m_videobuf ;
+	// delete video ;
+	//m_buflock.unlock() ;
+	return true;
+}
+
+void UCloudRtcElectronEngine::selectBundlePath(std::string path)
+{
+	m_buflock.lock() ;
+	SelectBudle(path.data()) ;
+	m_buflock.unlock() ;
+}
+
+void UCloudRtcElectronEngine::beautyFrame() 
+{
+	m_buflock.lock() ;
+	int size = m_videolist.size() ;
+	if (size>0)
+	{
+		tVideoFrame* video = m_videolist.front() ;
+		m_videolist.pop_front() ;	
+		m_buflock.unlock() ;
+		if (video)
+		{
+			BeautyFrame(video->m_videobuf, video->m_buflen);
+			CVideoPackageQueue::GetInstance()->PushVideoPackage(video->m_videobuf, video->m_buflen);
+LOG_INFO("UCloudRtcElectronEngine::beautyFrame framelen = %d", video->m_buflen ) ;
+			delete [] video->m_videobuf ;
+			delete video ;
+		}
+		
+	}
+	
+}
+
+void UCloudRtcElectronEngine::addFrameItem() 
+{
+	m_buflock.lock() ;
+	int size = m_videolist.size() ;
+	if (size>0)
+	{
+		tVideoFrame* video = m_videolist.front() ;
+		m_videolist.pop_front() ;
+		m_buflock.unlock() ;	
+		if (video)
+		{
+			RenderItem(video->m_videobuf, video->m_buflen);
+			LOG_INFO("UCloudRtcElectronEngine::doCaptureFrame framelen = %d", video->m_buflen ) ;
+			CVideoPackageQueue::GetInstance()->PushVideoPackage(video->m_videobuf, video->m_buflen);
+
+			delete [] video->m_videobuf ;
+			delete video ;
+		}
+		
 	}
 }

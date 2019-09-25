@@ -2,6 +2,10 @@
   "targets": [
     {
       "target_name": "UCloudRtcElectronEngine",
+	   'defines': [
+           "_UNICODE",
+		   "UNICODE"
+       ],
 	  'conditions': [
             [
 				'OS=="win"',
@@ -34,21 +38,28 @@
 						"rtcplugin/win/UCloudRtcElectronEngine.h",
 						"rtcplugin/win/UCloudRtcElectronDefine.h",
 						"rtcplugin/win/node_log.cpp",
-						"rtcplugin/win/node_log.h"
+						"rtcplugin/win/node_log.h",
+						"rtcplugin/win/VideoPackageQueue.cpp",
+						"rtcplugin/win/BufferQueue.cpp"
 					],
 					'include_dirs':[
 						'rtcplugin',
 						'rtcplugin/win/urtcsdkc/urtcsdk/include',
-						'rtcplugin/win/urtcsdkc/third_party/jsoncpp/include'
+						'rtcplugin/win/urtcsdkc/third_party/jsoncpp/include',
+						'rtcplugin/win/urtcsdkc/third_party/beauty',
+						'rtcplugin/win/urtcsdkc/third_party/beauty/include'
+						
 					],
 					'library_dirs': [
 						'rtcplugin/win/urtcsdkc/urtcsdk/sdk',
-						'rtcplugin/win/urtcsdkc/third_party/jsoncpp/lib/release'
+						'rtcplugin/win/urtcsdkc/third_party/jsoncpp/lib/release',
+						'rtcplugin/win/urtcsdkc/third_party/beauty/lib'
 					],
 					'link_settings': {
 						'libraries': [
 							'-ljsoncpp.lib',
-							'-lUCloudRtcMediaEngine.lib'
+							'-lUCloudRtcMediaEngine.lib',
+							'-lbeautymoudle.lib'
 						]
 					},
 				}

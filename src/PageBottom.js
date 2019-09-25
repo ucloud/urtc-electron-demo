@@ -38,6 +38,9 @@ export default class PageBottom extends Component{
         addLog('info','您点击了发布媒体按钮！');
         if(roomId){
             getSdk().then(resp=>{
+                resp.urtcSdk.InitBeautyEngine(localCam.getNativeWindowHandle().readInt32LE()) ;
+                resp.urtcSdk.SelectBundle("./beautyres/assets/items/BackgroundSegmentation/xiandai_ztt_fu.bundle.bundle") ;
+                resp.urtcSdk.StartVideoCapture(1) ;
                 resp.urtcSdk.PublishStream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
             }).catch(ex=>{
                 this.setState({pCameraLoadding:false});
@@ -56,6 +59,8 @@ export default class PageBottom extends Component{
         const { roomId, addLog } = this.props;
         addLog('info','您点击了取消媒体发布按钮！');
         getSdk().then(resp=>{
+            resp.urtcSdk.StopVideoCapture() ;
+            resp.urtcSdk.UnInitBeautyEngine() ;
             resp.urtcSdk.UnPublishStream(1);
         }).catch(ex=>{
             addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);

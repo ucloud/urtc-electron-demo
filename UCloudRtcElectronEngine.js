@@ -19,6 +19,7 @@ export class UCloudRtcElectronEngine {
     UnInitDevEngine() {
         return this.urtcsdk.uninitdevengine() ;
     }
+
     /**
      * 获取摄像头个数
      * @return Int 0 成功非0 失败
@@ -127,6 +128,21 @@ export class UCloudRtcElectronEngine {
         return this.urtcsdk.stopplaytest() ;
     }
     /**
+     * 开始摄像头采集 用户获取videoframe 然后交给rtc 发送走
+     * @param profile 参见 videoprofile
+     * @return Int 0 成功非0 失败
+     */
+    StartVideoCapture(profile) {
+        return this.urtcsdk.startvideocapture(profile) ;
+    }
+   /**
+     * 停止摄像头采集
+     * @return Int 0 成功非0 失败
+     */
+    StopVideoCapture() {
+        return this.urtcsdk.stopvideocapture() ;
+    }
+    /**
      * 设置要使用的摄像头设备
      *  @param jsonstr 设备信息
      *  json格式  {
@@ -207,6 +223,13 @@ export class UCloudRtcElectronEngine {
      */
     UnInitRtcengine() {
         return this.urtcsdk.uninitrtcengine() ;
+    }
+    /**
+     * 销毁rtc 引擎
+     * @return Int  0 --255
+     */
+    EnableVideoPreproc(enable) {
+        return this.urtcsdk.enableextvideocapture(enable) ;
     }
     /**
      * 获取SDK 版本信息
@@ -584,6 +607,41 @@ export class UCloudRtcElectronEngine {
     */
     IsAudioOnlyMode() {
         return this.urtcsdk.isaudioonly() ;
+    }
+    /**
+     * 美颜
+     * @return Int 0 成功非0 失败
+     */
+    InitBeautyEngine(wnd) {
+        return this.urtcsdk.initbeautyengine(wnd) ;
+    }
+    /**
+     * 美颜
+     * @return Int 0 成功非0 失败
+     */
+    UnInitBeautyEngine() {
+        return this.urtcsdk.uninitbeautyengine() ;
+    }
+    /**
+     * 设置道具
+     * @return Int 0 成功非0 失败
+     */
+    SelectBundle(path) {
+        return this.urtcsdk.selectbundle(path) ;
+    }
+    /**
+     * 美颜
+     * @return Int 0 成功非0 失败
+     */
+    BeautifyFrame() {
+        return this.urtcsdk.beautyframe() ;
+    }
+    /**
+     * 挂件加美颜
+     * @return Int 0 成功非0 失败
+     */
+    AddFrameItme() {
+        return this.urtcsdk.addframeitem() ;
     }
 }
 

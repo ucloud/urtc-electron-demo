@@ -65,6 +65,7 @@ public:
 	virtual int setAutoPublishSubscribe(bool autoPub, bool autoSub) = 0;
 	virtual int setAudioOnlyMode(bool audioOnly) = 0;
 
+	virtual int enableExtendRtspVideocapture(bool enable, const char* rtspvideocapture) = 0;
 	virtual int enableExtendVideocapture(bool enable, UCloudRtcExtendVideoCaptureSource* videocapture) = 0;
 	virtual int startAudioMixing(const char* filepath, bool replace, bool loop,float musicvol) = 0;
 	virtual int stopAudioMixing() = 0;
@@ -81,6 +82,7 @@ public:
 	virtual int publish(eUCloudRtcMeidaType type, bool hasvideo, bool hasaudio) = 0; 
 	virtual int unPublish(eUCloudRtcMeidaType type) = 0;
 	virtual int startPreview(tUCloudRtcVideoCanvas& view) = 0;
+	//virtual int startPreviewEx(bool externredner, tUCloudRtcVideoCanvas& view, UCloudRtcVideoExtendRender* render) = 0;
 	virtual int stopPreview(tUCloudRtcVideoCanvas& view) = 0;
 	virtual int muteLocalMic(bool mute) = 0;
 	virtual int muteLocalVideo(bool mute, eUCloudRtcMeidaType streamtype) = 0;
@@ -88,6 +90,7 @@ public:
 	virtual int subscribe(tUCloudRtcStreamInfo& info) = 0;
 	virtual int unSubscribe(tUCloudRtcStreamInfo& info) = 0;
 	virtual int startRemoteView(tUCloudRtcVideoCanvas& view) = 0;
+	//virtual int startRemoteViewEx(bool externredner, tUCloudRtcVideoCanvas& view, UCloudRtcVideoExtendRender* render) = 0;
 	virtual int stopRemoteView(tUCloudRtcVideoCanvas& view) = 0;
 	virtual int muteRemoteAudio(tUCloudRtcMuteSt& info, bool mute) = 0;
 	virtual int muteRemoteVideo(tUCloudRtcMuteSt& info, bool mute) = 0;

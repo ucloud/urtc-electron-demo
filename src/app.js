@@ -528,6 +528,16 @@ var enentMap={
             com.addLog('success','停止录制失败 ！'+msg);
         }
        
+    },
+    5021:function (resp,com) {
+        // 美颜数据
+        getSdk().then(resp=>{
+           // com.addLog('success',' 渲染视频 ');
+            //resp.urtcSdk.BeautifyFrame();
+            resp.urtcSdk.AddFrameItme() ;
+        }).catch(ex=>{
+            com.addLog('error',`出现错误：${ex.err || ex.code || ex.status} --> ${ex.msg || ex.message}`);
+        }) ; 
     }
 }
 

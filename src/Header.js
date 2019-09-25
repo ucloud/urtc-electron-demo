@@ -120,7 +120,8 @@ export default class PageHeader extends React.Component{
         getSdk().then(resp => {
             const urtcSdk = resp.urtcSdk;
             urtcSdk.InitRtcEngine(this.props.initEngine);
-            urtcSdk.SetChannelType(0) ;
+            urtcSdk.EnableVideoPreproc(true) ;
+            urtcSdk.SetLoglevel(0) ;
             urtcSdk.SetSdkMode(1) ; 
             urtcSdk.SetStreamRole(2) ;
             urtcSdk.SetAudioOnlyMode(false) ;

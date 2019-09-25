@@ -301,6 +301,33 @@ void NodeStopPlayTest(const FunctionCallbackInfo<Value>& args) {
 	args.GetReturnValue().Set(num);
 }
 
+void NodeStartVideoCapture(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	if (args.Length() < 1) {
+		isolate->ThrowException(Exception::TypeError(
+			String::NewFromUtf8(isolate, "startvideocapture Wrong number of arguments")));
+		return;
+	}
+	int32_t nRetValue = 0;
+	if (m_elecengine)
+	{
+		m_elecengine->startVideoCapture(1);
+	}
+	Local<Number> num = Number::New(isolate, nRetValue);
+	args.GetReturnValue().Set(num);
+}
+
+void NodeStopVideoCapture(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	int32_t nRetValue = 0 ;
+	if (m_elecengine)
+	{
+		m_elecengine->stopVideoCapture();
+	}
+	Local<Number> num = Number::New(isolate, nRetValue);
+	args.GetReturnValue().Set(num);
+}
+
 void NodeSetActiveCam(const FunctionCallbackInfo<Value>& args) {
     LOG_INFO("start NodeSetActiveCam");
     Isolate* isolate = args.GetIsolate();
@@ -566,6 +593,19 @@ void NodeGetSdkVersion(const FunctionCallbackInfo<Value>& args) {
 		args.GetReturnValue().Set(devid);
 	}
 }
+
+void NodeEnableExtVideocapture(const FunctionCallbackInfo<Value>& args) {
+	Isolate* isolate = args.GetIsolate();
+	bool enable = args[0]->BooleanValue();
+	if (m_elecengine)
+	{
+		m_elecengine->enableExtendVideoSource(enable) ;
+		
+	}
+	Local<Number> num = Number::New(isolate, 0);
+	args.GetReturnValue().Set(num);
+}
+
 void NodeSetToeknSeckey(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = args.GetIsolate();
 
@@ -1495,6 +1535,66 @@ void NodeIsAudioOnly(const FunctionCallbackInfo<Value>& args) {
 	args.GetReturnValue().Set(camenable);
 }
 
+void NodeInitBeautyEngine(const FunctionCallbackInfo<Value>& args) 
+{
+	Isolate* isolate = args.GetIsolate();
+
+	int32_t window = args[0]->Int32Value();
+	if (m_elecengine)
+	{
+		m_elecengine->InitBeautyEngine(window);
+	}
+	args.GetReturnValue().Set(0);
+}
+
+void NodeUnInitBeautyEngine(const FunctionCallbackInfo<Value>& args) 
+{
+	Isolate* isolate = args.GetIsolate();
+	if (m_elecengine)
+	{
+		m_elecengine->UnInitBeautyEngine();
+	}
+	args.GetReturnValue().Set(0);
+}
+
+void NodeBeautyFrame(const FunctionCallbackInfo<Value>& args) 
+{
+	Isolate* isolate = args.GetIsolate();
+	if (m_elecengine)
+	{
+		m_elecengine->beautyFrame();
+	}
+	args.GetReturnValue().Set(0);
+}
+
+void NodeAddFrameItem(const FunctionCallbackInfo<Value>& args) 
+{
+	Isolate* isolate = args.GetIsolate();
+	if (m_elecengine)
+	{
+		m_elecengine->beautyFrame();
+	}
+	args.GetReturnValue().Set(0);
+}
+
+void NodeSelectBundle(const FunctionCallbackInfo<Value>& args) 
+{
+	Isolate* isolate = args.GetIsolate();
+
+		Local<String> jsonbody = args[0]->ToString();
+	int32_t bodylen = jsonbody->Utf8Length();
+	char *jsonmsg = new char[bodylen + 1];
+	memset(jsonmsg, 0, bodylen + 1);
+	jsonbody->WriteUtf8(jsonmsg);
+	
+	if (m_elecengine)
+	{
+		m_elecengine->selectBundlePath(jsonmsg);
+	}
+	SAFE_DELETE(jsonmsg);
+	args.GetReturnValue().Set(0);
+}
+
 void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "initdevengine", NodeInitDevEngine);
 	NODE_SET_METHOD(exports, "uninitdevengine", NodeUnInitDevEngine);
@@ -1510,6 +1610,8 @@ void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "stopmictest", NodeStopMicTest); //testdone
 	NODE_SET_METHOD(exports, "startplaytest", NodeStartPlayTest); //testdone
 	NODE_SET_METHOD(exports, "stopplaytest", NodeStopPlayTest); //testdone
+	NODE_SET_METHOD(exports, "startvideocapture", NodeStartVideoCapture); //testdone
+	NODE_SET_METHOD(exports, "stopvideocapture", NodeStopVideoCapture); //testdone
     NODE_SET_METHOD(exports, "setactivecam", NodeSetActiveCam); // todo - done testdone
     NODE_SET_METHOD(exports, "setactivemic", NodeSetActiveMic); //todo - done testdone
 	NODE_SET_METHOD(exports, "setactiveplay", NodeSetActivePlay); //todo - done testdone
@@ -1525,6 +1627,7 @@ void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "initrtcengine", NodeInitRtcEngine);
 	NODE_SET_METHOD(exports, "uninitrtcengine", NodeUnInitRtcEngine);
 	NODE_SET_METHOD(exports, "getsdkversion", NodeGetSdkVersion);
+	NODE_SET_METHOD(exports, "enableextvideocapture", NodeEnableExtVideocapture);
 	NODE_SET_METHOD(exports, "settokenseckey", NodeSetToeknSeckey);
 	NODE_SET_METHOD(exports, "setsdkmode", NodeSetSdkMode);
 	NODE_SET_METHOD(exports, "setstreamrole", NodeSetStreamRole);   //testdone
@@ -1570,6 +1673,12 @@ void Init(Local<Object> exports, Local<Object> module) {
 	NODE_SET_METHOD(exports, "isautopublish", NodeIsAutoPublish); //todo - done testdone
 	NODE_SET_METHOD(exports, "isautosub", NodeIsAutoSubscribe); //todo - done testdone
 	NODE_SET_METHOD(exports, "isaudioonly", NodeIsAudioOnly); //todo - done testdone
+
+	NODE_SET_METHOD(exports, "initbeautyengine", NodeInitBeautyEngine); //todo - done testdone
+	NODE_SET_METHOD(exports, "uninitbeautyengine", NodeUnInitBeautyEngine); //todo - done testdone
+	NODE_SET_METHOD(exports, "beautyframe", NodeBeautyFrame); //todo - done testdone
+	NODE_SET_METHOD(exports, "addframeitem", NodeAddFrameItem); //todo - done testdone
+	NODE_SET_METHOD(exports, "selectbundle", NodeSelectBundle);
 }
 
 NODE_MODULE(NODE_GYP_MODULE_NAME, Init)

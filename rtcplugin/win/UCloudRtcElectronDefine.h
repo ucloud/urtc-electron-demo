@@ -1,6 +1,10 @@
 #ifndef _UCLOUD_RTC_ELEC_DEFINE_H_
 #define _UCLOUD_RTC_ELEC_DEFINE_H_
 
+#include <stdint.h>
+
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
+
 typedef void(*ELECAVSDKCALLBACK)(int eventid, const char* data);
 typedef void(*ELECAUDIOCALLBACK)(int eny);
 
@@ -25,8 +29,14 @@ typedef enum _tUCloudRtcElecEventid {
 	UCLOUD_RTC_ELEC_EVENT_LOCAL_AUDIO_LEVEL,
 	UCLOUD_RTC_ELEC_EVENT_REMOTE_AUDIO_LEVEL,
 	UCLOUD_RTC_ELEC_EVENT_STARTRECORD,
-	UCLOUD_RTC_ELEC_EVENT_STOPRECORD
+	UCLOUD_RTC_ELEC_EVENT_STOPRECORD,
+	UCLOUD_RTC_ELEC_EVENT_DOCAPTURE
 }UCloudRtcElecEventid;
+
+typedef struct _tVideoFrame {
+	uint8_t* m_videobuf ;
+	int32_t m_buflen ;
+}tVideoFrame;
 
 #endif
 

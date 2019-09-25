@@ -119,13 +119,21 @@ typedef enum {
 typedef enum {
 	UCLOUD_RTC_SCREEN_PROFILE_LOW = 1,
 	UCLOUD_RTC_SCREEN_PROFILE_MIDDLE = 2,
-	UCLOUD_RTC_SCREEN_PROFILE_HIGH = 3
+	UCLOUD_RTC_SCREEN_PROFILE_HIGH = 3,
+	UCLOUD_RTC_SCREEN_PROFILE_HIGH_PLUS = 4
 } eUCloudRtcScreenProfile;
 
 //roomtype
 typedef enum {
 	UCLOUD_RTC_CHANNEL_TYPE_COMMUNICATION
 }eUCloudRtcChannelType;
+
+//qos
+typedef enum {
+	UCLOUD_RTC_QOS_BANLANCE,
+	UCLOUD_RTC_QOS_AUDIO_FIRST,
+	UCLOUD_RTC_QOS_VIDEO_FIRST,
+}eUCloudRtcQos;
 
 //stream role 
 typedef enum {
@@ -197,6 +205,7 @@ public:
 	virtual void onLocalAudioFrame(tUCloudRtcAudioFrame* audioframe) {}
 	virtual void onRemoteMixAudioFrame(tUCloudRtcAudioFrame* audioframe) {}
 };
+
 class  _EXPORT_API UCloudRtcExtendVideoCaptureSource
 {
 public:
@@ -207,6 +216,15 @@ class _EXPORT_API UCloudRtcVideoFrameObserver
 {
 public:
 	virtual  void onCaptureFrame(unsigned char* videoframe, int buflen) = 0;
+};
+
+class  _EXPORT_API UCloudRtcVideoExtendRender
+{
+public:
+	virtual void onLocalVideoFrame(const char* uid, eUCloudRtcMeidaType mtype,
+		tUCloudRtcI420VideoFrame* videoframe) {}
+	virtual void onRemoteVideoFrame(const char* uid, eUCloudRtcMeidaType mtype, 
+		tUCloudRtcI420VideoFrame* videoframe) {}
 };
 
 #endif
