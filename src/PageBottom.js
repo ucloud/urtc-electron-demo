@@ -38,9 +38,10 @@ export default class PageBottom extends Component{
         addLog('info','您点击了发布媒体按钮！');
         if(roomId){
             getSdk().then(resp=>{
+                console.log(' 初始化美颜引擎 开始 1') ;
                 resp.urtcSdk.InitBeautyEngine(localCam.getNativeWindowHandle().readInt32LE()) ;
-                resp.urtcSdk.SelectBundle("./beautyres/assets/items/BackgroundSegmentation/xiandai_ztt_fu.bundle.bundle") ;
-                resp.urtcSdk.StartVideoCapture(1) ;
+                resp.urtcSdk.StartVideoCapture(3) ;
+                console.log(' 初始化美颜引擎 开始 3') ;
                 resp.urtcSdk.PublishStream(1,this.mediaConfig.videoenable, this.mediaConfig.audioenable);
             }).catch(ex=>{
                 this.setState({pCameraLoadding:false});

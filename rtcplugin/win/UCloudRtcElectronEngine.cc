@@ -12,6 +12,7 @@ UCloudRtcElectronEngine::UCloudRtcElectronEngine()
 	m_engineinit = false;
 	m_eventhandler = new ucloud::rtc::NodeEventHandler;
 	m_lpImageBuffer = new uint8_t[0x800000];
+	m_usermediadevice = nullptr ;
 }
 
 UCloudRtcElectronEngine::~UCloudRtcElectronEngine()
@@ -31,6 +32,7 @@ UCloudRtcElectronEngine::~UCloudRtcElectronEngine()
 	m_eventhandler = nullptr;
 	m_rtcengine = nullptr;
 	m_mediadevice = nullptr;
+	m_usermediadevice = nullptr ;
 	m_engineinit = false;
 
 }
@@ -105,8 +107,8 @@ int UCloudRtcElectronEngine::enableExtendVideoSource(bool enable)
 int UCloudRtcElectronEngine::InitBeautyEngine(int32_t wndview) 
 {
 	tBeautyConfig bconfig;
-	bconfig.mVideoWidth = 320;
-	bconfig.mVideoHeight = 180;
+	bconfig.mVideoWidth = 640;
+	bconfig.mVideoHeight = 360;
 	bconfig.videownd = (void*)wndview ;
 	return InitBeautyMoudle(bconfig) ;
 }
@@ -447,8 +449,9 @@ void UCloudRtcElectronEngine::startVideoCapture(int videoprofile)
 	{
 		m_usermediadevice = UCloudRtcMediaDevice::sharedInstance();
 	}
-	CVideoPackageQueue::GetInstance()->SetVideoFrameLen(320 * 180 * 3 / 2);
-	m_usermediadevice->startCaptureFrame(UCLOUD_RTC_VIDEO_PROFILE_320_180, this);
+	LOG_INFO("UCloudRtcElectronEngine::startVideoCapture %d", m_usermediadevice ) ;
+	CVideoPackageQueue::GetInstance()->SetVideoFrameLen(640 * 360 * 3 / 2);
+	m_usermediadevice->startCaptureFrame((eUCloudRtcVideoProfile)videoprofile, this);
 }
 
 void UCloudRtcElectronEngine::stopVideoCapture()

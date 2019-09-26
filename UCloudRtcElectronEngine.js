@@ -19,7 +19,6 @@ export class UCloudRtcElectronEngine {
     UnInitDevEngine() {
         return this.urtcsdk.uninitdevengine() ;
     }
-
     /**
      * 获取摄像头个数
      * @return Int 0 成功非0 失败

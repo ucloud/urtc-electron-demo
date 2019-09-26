@@ -308,10 +308,13 @@ void NodeStartVideoCapture(const FunctionCallbackInfo<Value>& args) {
 			String::NewFromUtf8(isolate, "startvideocapture Wrong number of arguments")));
 		return;
 	}
+	
+	int32_t videoprofile = args[0]->Int32Value();
+	LOG_INFO("NodeStartVideoCapture =  %d", videoprofile ) ;
 	int32_t nRetValue = 0;
 	if (m_elecengine)
 	{
-		m_elecengine->startVideoCapture(1);
+		m_elecengine->startVideoCapture(videoprofile);
 	}
 	Local<Number> num = Number::New(isolate, nRetValue);
 	args.GetReturnValue().Set(num);
@@ -1038,6 +1041,8 @@ void NodePublishStream(const FunctionCallbackInfo<Value>& args) {
 
 	int32_t nRetValue = -1;
 	UCloudRtcEngine* rtcengine = m_elecengine->GetUrtcEngine();
+
+	LOG_INFO("NodePublishStream =  %d", mtype ) ;
 	if (rtcengine)
 	{
 		nRetValue = rtcengine->publish(static_cast<eUCloudRtcMeidaType>(mtype), hasvideo, hasaudio);
@@ -1572,7 +1577,7 @@ void NodeAddFrameItem(const FunctionCallbackInfo<Value>& args)
 	Isolate* isolate = args.GetIsolate();
 	if (m_elecengine)
 	{
-		m_elecengine->beautyFrame();
+		m_elecengine->addFrameItem();
 	}
 	args.GetReturnValue().Set(0);
 }
@@ -1586,7 +1591,7 @@ void NodeSelectBundle(const FunctionCallbackInfo<Value>& args)
 	char *jsonmsg = new char[bodylen + 1];
 	memset(jsonmsg, 0, bodylen + 1);
 	jsonbody->WriteUtf8(jsonmsg);
-	
+	LOG_INFO("NodeSelectBundle path = %s", jsonmsg ) ;
 	if (m_elecengine)
 	{
 		m_elecengine->selectBundlePath(jsonmsg);
